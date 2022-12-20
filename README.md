@@ -1,3 +1,6 @@
+"start": "node server.js",
+    "dev": "react-scripts start",
+    
 [![Deploy to Cyclic](https://deploy.cyclic.app/button.svg)](https://deploy.cyclic.app/)
 
 # Getting Started with Create React App
