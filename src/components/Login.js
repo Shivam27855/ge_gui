@@ -1,6 +1,7 @@
 import '../App.css';
 import { useState, useEffect } from "react";
 import ToDoItem from './TodoItem';
+import GeEstimation from './GeEstimation';
 function Login() {
     //const baseURL = "http://localhost:5000";
     const baseURL ="https://lime-alert-deer.cyclic.app/";
@@ -144,6 +145,6 @@ function Login() {
     <input className='inputField' type="password" value={create_password} placeholder="CREATE PASSWORD" onChange={handleCreatePasswordChange}/>
     <button className='inputField' type="submit">CREATE ACCOUNT</button>
   </form><button className='inputField cancelButton' onClick={goBackToLogin}>BACK</button><h4 className='logOutButton'>{createError}</h4></div>:
-  <div>{<ToDoItem emptyToDoList={emptyToDoList} item={todoItems} userId={userId} />}<button className='footer logOutButton'onClick={handleLogOut}>LOG OUT</button></div>);
+  <div><GeEstimation/><button className='footer logOutButton'onClick={handleLogOut}>LOG OUT</button></div>);
 }
 export default Login;
