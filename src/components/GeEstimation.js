@@ -8,7 +8,8 @@ function GeEstimation() {
     const [geItems,setGeItems]=useState([]);
     const [geFilterItems,setFilterGeItems]=useState([]);
     
-    const [currentItem,setCurrentItem]=useState("");
+    const [currentItem_short,setcurrentItem_short]=useState("");
+    const [currentItem_company,setcurrentItem_company]=useState("");
 
 
   const [username,setUsername]=useState("");
@@ -63,16 +64,16 @@ function GeEstimation() {
 
 
   let handleItemChange=(e)=>{
-    setCurrentItem(e.target.value);
+    setcurrentItem_short(e.target.value);
     setFilterGeItems([]);
     let newArray=[];
-    if(currentItem.length==0)
+    if(currentItem_short.length==0)
     {
         setFilterGeItems([]);
     }
-    if(currentItem.length>=1)
+    if(currentItem_short.length>=1)
     {
-        geItems.filter(geItem => geItem.item_shortName.includes(currentItem)).map(filteredItem=> (
+        geItems.filter(geItem => geItem.item_shortName.includes(currentItem_short)).map(filteredItem=> (
             newArray.push(filteredItem)
             
           ))
@@ -81,12 +82,40 @@ function GeEstimation() {
     
   }
 
+  let handleItemCompanyChange=(e)=>{
+    setcurrentItem_company(e.target.value);
+    setFilterGeItems([]);
+    let newArray=[];
+    if(currentItem_company.length==0)
+    {
+        setFilterGeItems([]);
+    }
+    if(currentItem_company.length>=1)
+    {
+        geItems.filter(geItem => geItem.item_company.includes(currentItem_company) && geItem.item_shortName.includes(currentItem_short)).map(filteredItem=> (
+            newArray.push(filteredItem)
+            
+          ))
+        setFilterGeItems(newArray)
+    }
+    
+  }
+
+
+
   return (<div>
-    <input className='inputField' type="text" value={currentItem} placeholder="Enter Item Name" onChange={handleItemChange}/>
+    <h6>Shortname</h6><input className='inputField' type="text" value={currentItem_short} placeholder="Enter Item Name" onChange={handleItemChange}/>
+    <h6>Compname</h6><input className='inputField' type="text" value={currentItem_company} placeholder="Enter Company Name" onChange={handleItemCompanyChange}/>
+
     {geFilterItems.map(
       (geFilterItem,index) => <li className="todoField" key={geFilterItem.item_id}>
                           
                           <input id={geFilterItem.item_id} type="text" value={geFilterItem.item_name}/>
+                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.item_company}/>
+                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.modal}/>
+                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.item_subcategary}/>
+                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.item_sp}/>
+                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.item_description}/>
 
                                               </li>
                   )}
