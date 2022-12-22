@@ -1,6 +1,7 @@
 import '../App.css';
 import { useState, useEffect } from "react";
 import ToDoItem from './TodoItem';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 function GeEstimation() {
     const baseURL = "http://localhost:5000";
     //const baseURL ="https://lime-alert-deer.cyclic.app/";
@@ -55,6 +56,23 @@ function GeEstimation() {
     }
   },[currentItem_short]);
 
+  useEffect(()=>{
+    setFilterGeItems([]);
+    let newArray=[];
+    if(currentItem_company.length==0)
+    {
+        setFilterGeItems([]);
+    }
+    if(currentItem_company.length>=1)
+    {
+        geItems.filter(geItem => geItem.item_company.includes(currentItem_company) && geItem.item_shortName.includes(currentItem_short)).map(filteredItem=> (
+            newArray.push(filteredItem)
+            
+          ))
+        setFilterGeItems(newArray)
+    }
+  },[currentItem_company]);
+
   let fetchGeItem=()=>{
     try {
         fetch(`${baseURL}/getGeItem`, {
@@ -87,30 +105,15 @@ function GeEstimation() {
 
   let handleItemChange=(e)=>{
     setcurrentItem_short(e.target.value);
-    
-    
   }
 
   let handleItemCompanyChange=(e)=>{
-    setcurrentItem_company(e.target.value);
-    setFilterGeItems([]);
-    let newArray=[];
-    if(currentItem_company.length==0)
-    {
-        setFilterGeItems([]);
-    }
-    if(currentItem_company.length>=1)
-    {
-        geItems.filter(geItem => geItem.item_company.includes(currentItem_company) && geItem.item_shortName.includes(currentItem_short)).map(filteredItem=> (
-            newArray.push(filteredItem)
-            
-          ))
-        setFilterGeItems(newArray)
-    }
-    
+    setcurrentItem_company(e.target.value);  
   }
 
+  let handleAddItem=()=>{
 
+  }
 
   return (<div>
    
