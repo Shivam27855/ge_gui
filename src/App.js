@@ -6,7 +6,7 @@ function App() {
      
   return (
     <div className="App wrapper">
-      <h1 className='footer'>GE PROJECT</h1>
+      <h3 className='footer'>GE PROJECT</h3>
       <h6 className=''>By Shivam Singhal</h6>
       {<Login/>}
       

@@ -120,7 +120,7 @@ body{
 .wrapper .footer{
   display: flex;
   width: 100%;
-  margin-top: 20px;
+  
   align-items: center;
   justify-content: center;
 }
@@ -165,4 +165,20 @@ button{
 .logOutButton{
   background-color: red;
   
+}
+
+table {
+  width: 800px;
+  height: 200px;
+  border-collapse: collapse;
+}
+  
+th {
+  border-bottom: 1px solid black;
+  border: 2px solid black;
+}
+  
+td {
+  text-align: center;
+  border: 2px solid black;
 }

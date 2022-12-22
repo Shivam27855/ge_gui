@@ -33,6 +33,28 @@ function GeEstimation() {
     fetchGeItem();
   },[]);
 
+  useEffect(()=>{
+    setFilterGeItems([]);
+    let newArray=[];
+    if(currentItem_short.length==0)
+    {
+        setFilterGeItems([]);
+    }
+    else if(currentItem_short=='*')
+    {
+      setFilterGeItems(geItems);
+      console.log(geFilterItems)
+    }
+    else if(currentItem_short.length>=1)
+    {
+        geItems.filter(geItem => geItem.item_shortName.includes(currentItem_short)).map(filteredItem=> (
+            newArray.push(filteredItem)
+            
+          ))
+        setFilterGeItems(newArray)
+    }
+  },[currentItem_short]);
+
   let fetchGeItem=()=>{
     try {
         fetch(`${baseURL}/getGeItem`, {
@@ -65,20 +87,7 @@ function GeEstimation() {
 
   let handleItemChange=(e)=>{
     setcurrentItem_short(e.target.value);
-    setFilterGeItems([]);
-    let newArray=[];
-    if(currentItem_short.length==0)
-    {
-        setFilterGeItems([]);
-    }
-    if(currentItem_short.length>=1)
-    {
-        geItems.filter(geItem => geItem.item_shortName.includes(currentItem_short)).map(filteredItem=> (
-            newArray.push(filteredItem)
-            
-          ))
-        setFilterGeItems(newArray)
-    }
+    
     
   }
 
@@ -104,21 +113,42 @@ function GeEstimation() {
 
 
   return (<div>
-    <h6>Shortname</h6><input className='inputField' type="text" value={currentItem_short} placeholder="Enter Item Name" onChange={handleItemChange}/>
-    <h6>Compname</h6><input className='inputField' type="text" value={currentItem_company} placeholder="Enter Company Name" onChange={handleItemCompanyChange}/>
+   
+    
+      <div className="inputField">
+      <h6>Shortname</h6><input className='' type="text" value={currentItem_short} placeholder="Enter Item Name" onChange={handleItemChange}/>
+      <h6>Compname</h6><input className='' type="text" value={currentItem_company} placeholder="Enter Company Name" onChange={handleItemCompanyChange}/>
+
+    </div>
+
+    <table>
+        <tr>
+          <th>NAME</th>
+          <th>COMPANY</th>
+          <th>MODEL</th>
+          <th>SUB-CATEGORY</th>
+          <th>WARRANTY</th>
+          <th>COST PRICE</th>
+          <th>SELLING PRICE</th>
+          <th>DESCRIPTION</th>
+        </tr>
+
 
     {geFilterItems.map(
-      (geFilterItem,index) => <li className="todoField" key={geFilterItem.item_id}>
+      (geFilterItem,index) => <tr id={geFilterItem.item_id} key={geFilterItem.item_id}>
                           
-                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.item_name}/>
-                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.item_company}/>
-                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.modal}/>
-                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.item_subcategary}/>
-                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.item_sp}/>
-                          <input id={geFilterItem.item_id} type="text" value={geFilterItem.item_description}/>
+                          <td>{geFilterItem.item_name}</td>
+                          <td>{geFilterItem.item_company}</td>
+                          <td>{geFilterItem.modal}</td>
+                          <td>{geFilterItem.item_subcategary}</td>
+                          <td>{geFilterItem.item_warranty}</td>
+                          <td>{geFilterItem.item_cp}</td>
+                          <td>{geFilterItem.item_sp}</td>
+                          <td>{`${geFilterItem.item_description}`}</td>
 
-                                              </li>
+                                              </tr>
                   )}
+                  </table>
   </div>);
 }
 export default GeEstimation;
