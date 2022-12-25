@@ -48,11 +48,12 @@ function GeEstimation() {
     }
     else if(currentItem_short.length>=1)
     {
-        geItems.filter(geItem => geItem.item_shortName.includes(currentItem_short)).map(filteredItem=> (
-            newArray.push(filteredItem)
-            
-          ))
-        setFilterGeItems(newArray)
+        //console.log(currentItem_short)
+        geItems.filter(geItem => geItem.item_shortname.includes(currentItem_short)).map(filteredItem=> (
+          newArray.push(filteredItem)
+          
+        ))
+      setFilterGeItems(newArray)
     }
   },[currentItem_short]);
 
@@ -125,6 +126,7 @@ function GeEstimation() {
     </div>
 
     <table>
+      <thead>
         <tr>
           <th>NAME</th>
           <th>COMPANY</th>
@@ -135,14 +137,15 @@ function GeEstimation() {
           <th>SELLING PRICE</th>
           <th>DESCRIPTION</th>
         </tr>
+      </thead>
 
-
+      <tbody>
     {geFilterItems.map(
       (geFilterItem,index) => <tr id={geFilterItem.item_id} key={geFilterItem.item_id}>
                           
                           <td>{geFilterItem.item_name}</td>
                           <td>{geFilterItem.item_company}</td>
-                          <td>{geFilterItem.modal}</td>
+                          <td>{geFilterItem.item_modal}</td>
                           <td>{geFilterItem.item_subcategary}</td>
                           <td>{geFilterItem.item_warranty}</td>
                           <td>{geFilterItem.item_cp}</td>
@@ -151,6 +154,7 @@ function GeEstimation() {
 
                                               </tr>
                   )}
+            </tbody>
                   </table>
   </div>);
 }

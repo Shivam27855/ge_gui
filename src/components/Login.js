@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import ToDoItem from './TodoItem';
 import GeHome from './GeHome';
 function Login() {
-    //const baseURL = "http://localhost:5000";
-    const baseURL ="https://lime-alert-deer.cyclic.app/";
+    const baseURL = "http://localhost:5000";
+    //const baseURL ="https://lime-alert-deer.cyclic.app/";
   const [username,setUsername]=useState("");
   const [password,setPassword]=useState("");
   const [checkLoginStatus,setCheckLoginStatus]=useState(false);
@@ -36,33 +36,17 @@ function Login() {
         .then((json) => {
           if (json.length != 0) {
             console.log(json);
-            setCheckLoginStatus(true);
+            
 
-            if(json.error=="No Todo Item")
+            if(json.error=="Invalid Username or Password")
             {
-                setEmptyToDoList(true);
+                alert("No username or password exists")
+                setCheckLoginStatus(false);
             }
             else{
-                setTodoItems(json);
-                setEmptyToDoList(false);
+                setCheckLoginStatus(true);
             }
             
-            fetch(`${baseURL}/getUserId`, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  username: username,
-                  password:password
-                }),
-              })
-                .then((res) => res.json())
-                .then((json) => {
-                  if (json.length != 0) {
-                    //alert(json)
-                    setUserId(json);
-            
-                  }
-                })
           }
         })
     } catch (err) {
