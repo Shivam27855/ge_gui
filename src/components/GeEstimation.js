@@ -181,6 +181,69 @@ function GeEstimation() {
     setcurrentItem_company(e.target.value);  
   }
 
+  let handleCancel =(item_id,index)=>{
+    const newEdit = [...editOn];
+    newEdit[index]=false
+
+  seteditOn(newEdit);
+    document.getElementById('editButton_'+item_id).style.visibility='visible';
+document.getElementById('saveButton_'+item_id).style.visibility='hidden';
+document.getElementById('cancelButton_'+item_id).style.visibility='hidden';
+    
+}
+
+let handleSave =(item_id,index)=>{
+
+  //const baseURL ="https://lime-alert-deer.cyclic.app/";
+  const baseURL ="http://localhost:5000/";
+try {
+  fetch(`${baseURL}editGeItem/${item_id}`, {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      "item_name": document.getElementById(`editname_${item_id}`).value,
+    "item_company": document.getElementById(`editcompany_${item_id}`).value,
+    "item_modal":document.getElementById(`editmodal_${item_id}`).value,
+    "item_subcategory":document.getElementById(`editsubcategory_${item_id}`).value,
+    "item_warranty":document.getElementById(`editwarranty_${item_id}`).value,
+    "item_cp":document.getElementById(`editcp_${item_id}`).value,
+    "item_sp":document.getElementById(`editsp_${item_id}`).value,
+    "item_description":document.getElementById(`editdescription_${item_id}`).value
+    }),
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      if (json.length != 0) {
+        console.log(json);
+
+        //document.getElementById(todoId).removeAttribute("disabled");
+        //document.getElementById(todoId).setAttribute("disabled","true");
+        const newEdit = [...editOn];
+        newEdit[index]=false
+    
+      seteditOn(newEdit);
+
+        document.getElementById('editButton_'+item_id).style.visibility='visible';
+  document.getElementById('saveButton_'+item_id).style.visibility='hidden';
+  document.getElementById('cancelButton_'+item_id).style.visibility='hidden';
+        // setCheckLoginStatus(true);
+        // setTodoItems(json);
+        // setProfileUserName(json[0].userName);
+
+        // fetch(
+        //   `${baseURL}/getAccount/${profileUserId}`)
+        //   .then((res) => res.json())
+        //   .then((json) => {
+        //     setAccount(json);
+        //   })
+      }
+    })
+} catch (err) {
+  alert("Login Fail")
+  console.log(err);
+}
+}
+
   let handleEdit=(item_id,index)=>
   {
     //setDisableItem(false);
@@ -192,8 +255,13 @@ function GeEstimation() {
 
   seteditOn(newEdit);
 
-  console.log(item_id);
-  console.log($("#editname_3").value)
+  //console.log(item_id);
+  //console.log($("#editname_3").value)
+
+  document.getElementById('editButton_'+item_id).style.visibility='hidden';
+    document.getElementById('saveButton_'+item_id).style.visibility='visible';
+    document.getElementById('cancelButton_'+item_id).style.visibility='visible';
+
 
   //setTodoItems(newTodo);
 
@@ -237,9 +305,9 @@ function GeEstimation() {
                           <td>{editOn[index]?<input id={`editsp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_sp} placeholder="EDIT SELLING PRICE" onChange={(e) => {handleNewSpChange(geFilterItem.item_id,e.target.value,index)}}/>:geFilterItem.item_sp}</td>
                           <td>{editOn[index]?<input id={`editdescription_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_description} placeholder="EDIT DESCRIPTION" onChange={(e) => {handleNewDescriptionChange(geFilterItem.item_id,e.target.value,index)}}/>:geFilterItem.item_description}</td>
                           <td><button className='editButton' style={{visibility: "visible"}} id={"editButton_"+geFilterItem.item_id} onClick={()=>handleEdit(geFilterItem.item_id,index)}><FiEdit /></button>
-                          <button className='saveButton' style={{visibility: "hidden"}} id={"saveButton_"+geFilterItem.todoId} ><RiSave2Fill/></button>
-                          <button className='cancelButton' style={{visibility: "hidden"}} id={"cancelButton_"+geFilterItem.todoId}><GiCancel/></button>
-                          <button className='deleteButton' style={{visibility: "visible"}} id={"deleteButton_"+geFilterItem.todoId}><AiFillDelete/></button></td>
+                          <button className='saveButton' style={{visibility: "hidden"}} id={"saveButton_"+geFilterItem.item_id} onClick={()=>handleSave(geFilterItem.item_id,index)}><RiSave2Fill/></button>
+                          <button className='cancelButton' style={{visibility: "hidden"}} id={"cancelButton_"+geFilterItem.item_id} onClick={()=>handleCancel(geFilterItem.item_id,index)}><GiCancel/></button>
+                          <button className='deleteButton' style={{visibility: "visible"}} id={"deleteButton_"+geFilterItem.item_id}><AiFillDelete/></button></td>
 
                           
                           
