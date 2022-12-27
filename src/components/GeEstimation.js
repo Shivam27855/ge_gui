@@ -205,10 +205,24 @@ try {
 
       //alert(currentUserId);
       const filteredPeople = geFilterItems.filter((item) => item.item_id !== item_id);
+
+      const newEdit = [...editOn];
+
+      const newEditArray = [];
+
+for (let i = 0; i < newEdit.length; i++) {
+    if (i != index) {
+      newEditArray.push(newEdit[i]);
+    }
+}
+
+
+
+      seteditOn(newEditArray);
+
       setFilterGeItems(filteredPeople)
       fetchGeItem();
-
-
+      alert("Item Deleted");
 
 
 
@@ -253,6 +267,8 @@ try {
             document.getElementById('editButton_' + item_id).style.visibility = 'visible';
             document.getElementById('saveButton_' + item_id).style.visibility = 'hidden';
             document.getElementById('cancelButton_' + item_id).style.visibility = 'hidden';
+
+            alert("Item Edited Successfully");
             // setCheckLoginStatus(true);
             // setTodoItems(json);
             // setProfileUserName(json[0].userName);
@@ -325,7 +341,7 @@ try {
             <td>{editOn[index] ? <input id={`editname_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_name} placeholder="EDIT NAME" onChange={(e) => { handleNewNameChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_name}</td>
             <td>{editOn[index] ? <input id={`editcompany_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_company} placeholder="EDIT COMPANY" onChange={(e) => { handleNewCompanyChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_company}</td>
             <td>{editOn[index] ? <input id={`editmodal_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_modal} placeholder="EDIT MODAL" onChange={(e) => { handleNewModalChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_modal}</td>
-            <td>{editOn[index] ? <input id={`editsubcategory_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_subcategary} placeholder="EDIT SUBCATEGORY" onChange={(e) => { handleNewSubCategoryChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_subcategary}</td>
+            <td>{editOn[index] ? <input id={`editsubcategory_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_subcategory} placeholder="EDIT SUBCATEGORY" onChange={(e) => { handleNewSubCategoryChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_subcategory}</td>
             <td>{editOn[index] ? <input id={`editwarranty_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_warranty} placeholder="EDIT WARRANTY" onChange={(e) => { handleNewWarrantyChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_warranty}</td>
             <td>{editOn[index] ? <input id={`editcp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_cp} placeholder="EDIT COST PRICE" onChange={(e) => { handleNewCpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_cp}</td>
             <td>{editOn[index] ? <input id={`editsp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_sp} placeholder="EDIT SELLING PRICE" onChange={(e) => { handleNewSpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_sp}</td>

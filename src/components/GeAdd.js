@@ -116,9 +116,11 @@ function GeAdd() {
               {
                   //setEmptyToDoList(true);
                   setCreateError("Username Already Exists");
+                  alert("Item Can Not Be Added");
                   
               }
               else{
+                alert("Item Added");
                 setCreateError("");
                 setCreateAccountUi(false);
               }
