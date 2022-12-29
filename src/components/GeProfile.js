@@ -8,7 +8,7 @@ import { GiCancel } from 'react-icons/gi'
 import { AiFillDelete } from 'react-icons/ai'
 import Table from 'react-bootstrap/Table';
 import $ from "jquery";
-function GeEstimation() {
+function GeProfile() {
   const baseURL = "http://localhost:5000";
   //const baseURL ="https://lime-alert-deer.cyclic.app/";
 
@@ -313,7 +313,7 @@ for (let i = 0; i < newEdit.length; i++) {
   }
   return (<div>
 
-    <h1>estimation Section</h1>
-      </div>);
+<h1>profile Section</h1>
+  </div>);
 }
-export default GeEstimation;
+export default GeProfile;

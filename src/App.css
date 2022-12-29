@@ -14,7 +14,7 @@ body{
   height: 100vh;
   /* overflow: hidden; */
   padding: 10px;
-  background: linear-gradient(to bottom, #68EACC 0%, #497BE8 100%);
+  /* background: linear-gradient(to bottom, #68EACC 0%, #497BE8 100%); */
 }
 .wrapper{
   background: #fff;
@@ -174,11 +174,12 @@ table {
 }
   
 th {
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid black;
   border: 2px solid black;
 }
   
 td {
   text-align: center;
   border: 2px solid black;
+  border-bottom: 2px solid black;
 }

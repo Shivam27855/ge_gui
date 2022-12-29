@@ -8,7 +8,7 @@ import { GiCancel } from 'react-icons/gi'
 import { AiFillDelete } from 'react-icons/ai'
 import Table from 'react-bootstrap/Table';
 import $ from "jquery";
-function GeEstimation() {
+function GePriceList() {
   const baseURL = "http://localhost:5000";
   //const baseURL ="https://lime-alert-deer.cyclic.app/";
 
@@ -311,9 +311,70 @@ for (let i = 0; i < newEdit.length; i++) {
     //document.getElementById(todoId).removeAttribute("disabled");
 
   }
-  return (<div>
+  return (        
+  <div style={{ margin: "auto",marginTop:"2vh",width:"165vh",height:"10vh"}}>
 
-    <h1>estimation Section</h1>
-      </div>);
+
+
+    
+
+    <div style={{display:'flex'}}>
+  <div style={{margin: "auto",marginTop:"1vh",width:"40vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>NAME SEARCH</h6><input className='' type="text" value={currentItem_short} placeholder="ENTER ITEM" onChange={handleItemChange} />
+
+  </div>
+  <div style={{margin: "auto",marginTop:"1vh",width:"40vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>COMPANY SEARCH</h6><input className='' type="text" value={currentItem_company} placeholder="ENTER COMPANY" onChange={handleItemCompanyChange} />
+
+  </div>
+
+  <div style={{margin: "auto",marginTop:"1vh",width:"40vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>MODAL SEARCH</h6><input className='' type="text" value={currentItem_company} placeholder="ENTER MODAL" onChange={handleItemCompanyChange} />
+
+  </div>
+
+        </div>
+
+
+    <div style={{height: "65vh", overflow: "auto",marginTop:"1vh"}}>
+
+    <Table striped bordered hover style={{height: "80vh"}}>
+      <thead style={{position: "sticky",top: "0px",backgroundColor:"lightyellow"}}>
+        <tr>
+          <th>NAME</th>
+          <th>COMPANY</th>
+          <th>MODEL</th>
+          <th>SUB-CATEGORY</th>
+          <th>WARRANTY</th>
+          <th>COST PRICE</th>
+          <th>SELLING PRICE</th>
+          <th>DESCRIPTION</th>
+          
+        </tr>
+      </thead>
+
+      <tbody>
+        {geFilterItems.map(
+          (geFilterItem, index) => <tr id={geFilterItem.item_id} key={geFilterItem.item_id}>
+
+            <td>{editOn[index] ? <input id={`editname_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_name} placeholder="EDIT NAME" onChange={(e) => { handleNewNameChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_name}</td>
+            <td>{editOn[index] ? <input id={`editcompany_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_company} placeholder="EDIT COMPANY" onChange={(e) => { handleNewCompanyChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_company}</td>
+            <td>{editOn[index] ? <input id={`editmodal_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_modal} placeholder="EDIT MODAL" onChange={(e) => { handleNewModalChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_modal}</td>
+            <td>{editOn[index] ? <input id={`editsubcategory_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_subcategory} placeholder="EDIT SUBCATEGORY" onChange={(e) => { handleNewSubCategoryChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_subcategory}</td>
+            <td>{editOn[index] ? <input id={`editwarranty_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_warranty} placeholder="EDIT WARRANTY" onChange={(e) => { handleNewWarrantyChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_warranty}</td>
+            <td>{editOn[index] ? <input id={`editcp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_cp} placeholder="EDIT COST PRICE" onChange={(e) => { handleNewCpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_cp}</td>
+            <td>{editOn[index] ? <input id={`editsp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_sp} placeholder="EDIT SELLING PRICE" onChange={(e) => { handleNewSpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_sp}</td>
+            <td>{editOn[index] ? <input id={`editdescription_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_description} placeholder="EDIT DESCRIPTION" onChange={(e) => { handleNewDescriptionChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_description}</td>
+
+
+
+
+
+          </tr>
+        )}
+      </tbody>
+    </Table>
+    </div>
+  </div>);
 }
-export default GeEstimation;
+export default GePriceList;

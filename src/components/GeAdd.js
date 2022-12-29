@@ -147,26 +147,116 @@ function GeAdd() {
   const [create_description,setcreate_description]=useState("");
   return (
   <div>
-    <h1 className='demo'>check</h1>
+
+
+
+
+
+
+
+    
+
+    <h1 className='demo'></h1>
     <form onSubmit={handleAddItem}>
-    <div className="inputField">
-    <input className='' type="text" value={create_shortname} placeholder="CREATE SHORTNAME" onChange={handlecreate_shortname} required/>
-    <input className='' type="text" value={create_name} placeholder="CREATE NAME" onChange={handlecreate_name} required/>
-    </div>
-    <div className="inputField">
-    <input className='' type="text" value={create_company} placeholder="CREATE COMPANY" onChange={handlecreate_company} required/>
-    <input className='' type="text" value={create_modal} placeholder="CREATE MODAL" onChange={handlecreate_modal}/>
-    </div>
-    <div className="inputField">
-    <input className='' type="text" value={create_subcategory} placeholder="CREATE SUBCATEGORY" onChange={handlecreate_subcategory}/>
-    <input className='' type="text" value={create_warranty} placeholder="CREATE WARRANTY" onChange={handlecreate_warranty}/>
-    </div>
-    <div className="inputField">
-    <input className='' type="text" value={create_cp} placeholder="CREATE COST PRICE" onChange={handlecreate_cp} required/>
-    <input className='' type="text" value={create_sp} placeholder="CREATE SELLING PRICE" onChange={handlecreate_sp} required/>
-    </div>
-    <input className='inputField' type="text" value={create_description} placeholder="CREATE DESCRIPTION" onChange={handlecreate_description}/>
-    <button className='inputField' type="submit">CREATE ITEM</button>
+    
+    <div style={{display:'flex'}}>
+  <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>ENTER ITEM SHORT NAME</h6>
+  <input className='' type="text" value={create_shortname} placeholder="CREATE SHORTNAME" onChange={handlecreate_shortname} required/>
+
+
+  </div>
+  <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>ENTER ITEM NAME</h6>
+  <input className='' type="text" value={create_name} placeholder="CREATE NAME" onChange={handlecreate_name} required/>
+
+
+  </div>
+
+  
+
+        </div>
+
+
+        <div style={{display:'flex'}}>
+  <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>ENTER ITEM COMPANY NAME</h6>
+  <input className='' type="text" value={create_company} placeholder="CREATE COMPANY" onChange={handlecreate_company} required/>
+
+
+  </div>
+  <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>ENTER MODAL NAME</h6>
+  <input className='' type="text" value={create_modal} placeholder="CREATE MODAL" onChange={handlecreate_modal}/>
+
+
+  </div>
+
+  
+
+        </div>
+
+        <div style={{display:'flex'}}>
+  <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>ENTER ITEM SUBCATEGORY</h6>
+  <input className='' type="text" value={create_subcategory} placeholder="CREATE SUBCATEGORY" onChange={handlecreate_subcategory}/>
+
+
+  </div>
+  <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>ENTER ITEM WARRANTY</h6>
+  <input className='' type="text" value={create_warranty} placeholder="CREATE WARRANTY" onChange={handlecreate_warranty}/>
+
+
+  </div>
+
+  
+
+        </div>
+
+        <div style={{display:'flex'}}>
+  <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>ENTER ITEM COST PRICE</h6>
+  <input className='' type="text" value={create_cp} placeholder="CREATE COST PRICE" onChange={handlecreate_cp} required/>
+
+
+  </div>
+  <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>ENTER ITEM SELLING PRICE</h6>
+  <input className='' type="text" value={create_sp} placeholder="CREATE SELLING PRICE" onChange={handlecreate_sp} required/>
+
+
+  </div>
+
+  
+
+        </div>
+
+        <div style={{display:'flex'}}>
+  <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>ENTER ITEM DESCRIPTION</h6>
+  <input className='inputField' type="text" value={create_description} placeholder="CREATE DESCRIPTION" onChange={handlecreate_description}/>
+
+
+  </div>
+  
+  
+
+        </div>
+
+        <div style={{display:'flex'}}>
+  <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <button className='' type="submit">CREATE ITEM</button>
+
+  </div>
+  
+  
+
+        </div>
+
+
+   
+  
   </form></div>);
 }
 export default GeAdd;
