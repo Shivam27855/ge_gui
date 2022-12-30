@@ -8,6 +8,7 @@ import { FiEdit } from 'react-icons/fi';
 import { RiSave2Fill } from 'react-icons/ri'
 import { GiCancel } from 'react-icons/gi'
 import { AiFillDelete } from 'react-icons/ai'
+import Popup from './Popup';
 
 function GeEstimation() {
     const baseURL = "http://localhost:5000";
@@ -30,6 +31,58 @@ function GeEstimation() {
   const [enter_amount,setenter_amount]=useState();
   const [geEstimationItems,setgeEstimationItems]=useState([]);
   const [grandTotal,setgrandTotal]=useState(0);
+
+  const [edit_quantity,setedit_quantity]=useState();
+  const [edit_amount,setedit_amount]=useState();
+  const [edit_name,setedit_name]=useState();
+  const [edit_rate,setedit_rate]=useState();
+  
+
+  
+
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedIndex,setSelectedIndex]=useState();
+  const [prevAmount,setprevAmount]=useState();
+
+  let handleEditItem=()=>{
+    console.log(selectedIndex);
+
+    //const va = {item_name:create_shortname,item_rate:create_name,item_quantity:enter_quantity,item_amount:enter_amount}
+
+    
+    const arr = [...geEstimationItems];
+    console.log(arr[selectedIndex]);
+    arr[selectedIndex].item_name=edit_name;
+    arr[selectedIndex].item_rate=edit_rate;
+    arr[selectedIndex].item_quantity=edit_quantity;
+    arr[selectedIndex].item_amount=edit_rate*edit_quantity;
+    setgeEstimationItems(arr);
+    setIsOpen(!isOpen);
+    
+    //setFilterGeItems(arr);
+
+    
+    setgrandTotal(grandTotal-prevAmount+(edit_rate*edit_quantity));
+
+  }
+ 
+  const togglePopup = (index) => {
+    console.log(index);
+    setSelectedIndex(index);
+    setIsOpen(!isOpen);
+
+    for (var i=0;i<geEstimationItems.length;i++) {
+      if (i == index) {
+          setedit_name(geEstimationItems[i].item_name)
+    setedit_rate(geEstimationItems[i].item_rate)
+    setedit_quantity(geEstimationItems[i].item_quantity)
+    setedit_amount(geEstimationItems[i].item_amount)
+    setprevAmount(geEstimationItems[i].item_amount)
+          break;
+      }
+  } 
+  }
 
   useEffect(() => {
     fetchGeItem();
@@ -137,6 +190,25 @@ for (var i=0;i<x1.length;i++) {
 
   let handlecreate_description=(e)=>{
     setcreate_description(e.target.value);
+  }
+
+  let handleeditname=(e)=>{
+    setedit_name(e.target.value);
+  }
+
+  let handleeditrate=(e)=>{
+    setedit_rate(e.target.value);
+  }
+
+  let handleeditquantity=(e)=>{
+    setedit_quantity(e.target.value);
+    //setedit_amount(edit_quantity*edit_rate);
+  }
+
+  useEffect(()=>{setedit_amount(edit_quantity*edit_rate)},[edit_quantity])
+
+  let handleeditamount=(e)=>{
+    setedit_amount(e.target.value);
   }
 
 
@@ -251,6 +323,9 @@ for (var i=0;i<x1.length;i++) {
    
   
   </form>
+
+
+
   
   <div style={{height: "65vh", overflow: "auto",marginTop:"1vh"}}>
 
@@ -269,8 +344,8 @@ for (var i=0;i<x1.length;i++) {
 
       <tbody>
          {geEstimationItems.map(
-          (geEstimationItem, index) => <tr>
-            <td><button className='editButton' style={{ visibility: "visible" }}><FiEdit /></button>
+          (geEstimationItem, index) => <tr id={index} key={index}>
+            <td><button className='editButton' style={{ visibility: "visible" }} onClick={()=>togglePopup(index)}><FiEdit /></button>
               <button className='saveButton' style={{ visibility: "hidden" }}><RiSave2Fill /></button>
               <button className='cancelButton' style={{ visibility: "hidden" }}><GiCancel /></button>
               <button className='deleteButton' style={{ visibility: "visible" }}><AiFillDelete /></button></td>
@@ -288,6 +363,76 @@ for (var i=0;i<x1.length;i++) {
     
     </Table>
     </div>
+
+    {isOpen && <Popup
+      content={<>
+       
+    
+    <div style={{display:'flex'}}>
+  <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>ITEM NAME</h6>
+  <input id="" className='' type="text" value={edit_name} list="programmingLanguages" placeholder="ENTER ITEM NAME" onChange={handleeditname} required/>
+
+  <datalist id="programmingLanguages">
+
+  {geItems.map(
+          (geItem, index) =>
+          
+          <option id={geItem.item_id} value={`${geItem.item_name} ${geItem.item_company} ${geItem.item_modal}`}>{`${geItem.item_name} ${geItem.item_company} ${geItem.item_modal}`}</option>
+          
+        )}
+
+
+                
+            </datalist>
+
+  </div>
+
+  <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>RATE</h6>
+  <input className='' type="number" value={edit_rate} placeholder="ENTER RATE" onChange={handleeditrate} required/>
+
+  
+
+
+  </div>
+
+
+  <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>QUANTITY</h6>
+  <input className='' type="number" value={edit_quantity} placeholder="ENTER QUANTITY" onChange={handleeditquantity} required/>
+
+
+
+
+  </div>
+
+  
+  <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>AMOUNT</h6>
+  <input className='' type="number" value={edit_amount} placeholder="ENTER AMOUNT" onChange={handleeditamount} required/>
+
+  
+
+
+  </div>
+
+  
+  <button className='' type="submit" onClick={handleEditItem}>SAVE CHANGES</button>
+        </div>
+
+
+  
+  
+
+
+
+   
+  
+  
+      </>}
+      handleClose={togglePopup}
+    />}
 
 
 

@@ -32,7 +32,8 @@
     "jquery": "^3.6.3",
     "react-bootstrap": "^2.7.0",
     "react-bootstrap-sidebar-menu": "^2.0.3",
-    "react-router-dom": "^6.6.0"
+    "react-router-dom": "^6.6.0",
+    "reactjs-popup": "^2.0.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",
