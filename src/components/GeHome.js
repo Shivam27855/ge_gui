@@ -12,7 +12,7 @@ function GeHome() {
 
  
 
-  const [currentPage,setcurrentPage]=useState("priceList");
+  const [currentPage,setcurrentPage]=useState("PRICE LIST");
 
   let priceList=()=>{
     setcurrentPage("PRICE LIST");
