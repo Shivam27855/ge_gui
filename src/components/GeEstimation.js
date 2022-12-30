@@ -66,6 +66,18 @@ function GeEstimation() {
     setgrandTotal(grandTotal-prevAmount+(edit_rate*edit_quantity));
 
   }
+
+  let handleDelete=(index)=>{
+    const arr = [];
+    let getAmount = geEstimationItems[index].item_amount;
+    for (var i=0;i<geEstimationItems.length;i++) {
+      if (i != index) {
+        arr.push(geEstimationItems[i]);
+      }
+  } 
+    setgeEstimationItems(arr);
+    setgrandTotal(grandTotal-getAmount);
+  }
  
   const togglePopup = (index) => {
     console.log(index);
@@ -348,7 +360,7 @@ for (var i=0;i<x1.length;i++) {
             <td><button className='editButton' style={{ visibility: "visible" }} onClick={()=>togglePopup(index)}><FiEdit /></button>
               <button className='saveButton' style={{ visibility: "hidden" }}><RiSave2Fill /></button>
               <button className='cancelButton' style={{ visibility: "hidden" }}><GiCancel /></button>
-              <button className='deleteButton' style={{ visibility: "visible" }}><AiFillDelete /></button></td>
+              <button className='deleteButton' style={{ visibility: "visible" }} onClick={()=>handleDelete(index)}><AiFillDelete /></button></td>
 
             <td>{geEstimationItem.item_name}</td>
             <td>{geEstimationItem.item_rate}</td>
