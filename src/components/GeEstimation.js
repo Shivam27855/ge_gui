@@ -29,7 +29,7 @@ function GeEstimation() {
   const [enter_quantity,setenter_quantity]=useState(0);
   const [enter_amount,setenter_amount]=useState();
   const [geEstimationItems,setgeEstimationItems]=useState([]);
-
+  const [grandTotal,setgrandTotal]=useState(0);
 
   useEffect(() => {
     fetchGeItem();
@@ -158,8 +158,7 @@ for (var i=0;i<x1.length;i++) {
 
   let handleAddItem = (e) => {
     e.preventDefault();
-    alert("asf");
-   
+ 
     const va = {item_name:create_shortname,item_rate:create_name,item_quantity:enter_quantity,item_amount:enter_amount}
 
     const arr = [...geEstimationItems];
@@ -167,7 +166,7 @@ for (var i=0;i<x1.length;i++) {
     //setFilterGeItems(arr);
 
     setgeEstimationItems(arr);
-    
+    setgrandTotal(grandTotal+enter_amount);
   };
 
   const [create_shortname,setcreate_shortname]=useState("");
@@ -289,6 +288,29 @@ for (var i=0;i<x1.length;i++) {
     
     </Table>
     </div>
+
+
+
+    <div style={{display:'flex'}}>
+  <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"5vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>GRAND TOTAL</h6>
+    </div>
+
+  <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"5vh",border:"1px solid #000",borderRadius: "4px"}}>
+
+  <input className='' type="number" value={grandTotal}/>
+
+  
+
+
+  </div>
+
+
+  
+        </div>
+
+
+    
   </div>);
 }
 
