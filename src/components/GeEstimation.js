@@ -45,6 +45,16 @@ function GeEstimation() {
   const [selectedIndex,setSelectedIndex]=useState();
   const [prevAmount,setprevAmount]=useState();
 
+  const [create_shortname,setcreate_shortname]=useState("");
+  const [create_name,setcreate_name]=useState("");
+  const [create_company,setcreate_company]=useState("");
+  const [create_modal,setcreate_modal]=useState("");
+  const [create_subcategory,setcreate_subcategory]=useState("");
+  const [create_warranty,setcreate_warranty]=useState("");
+  const [create_cp,setcreate_cp]=useState("");
+  const [create_sp,setcreate_sp]=useState("");
+  const [create_description,setcreate_description]=useState("");
+
   let handleEditItem=()=>{
     console.log(selectedIndex);
 
@@ -95,6 +105,33 @@ function GeEstimation() {
       }
   } 
   }
+
+
+  useEffect(() => {
+    const close = (e) => {
+      if(e.keyCode === 27){
+        setIsOpen(false);
+      }
+    }
+    window.addEventListener('keydown', close)
+  return () => window.removeEventListener('keydown', close)
+},[])
+
+  useEffect(() => {
+    setenter_amount(enter_quantity*create_name)
+  }, [create_name]);
+
+  useEffect(() => {
+    setenter_amount(enter_quantity*create_name)
+  }, [enter_quantity]);
+
+  useEffect(() => {
+    setedit_amount(edit_quantity*edit_rate)
+  }, [edit_rate]);
+
+  useEffect(() => {
+    setedit_amount(edit_quantity*edit_rate)
+  }, [edit_quantity]);
 
   useEffect(() => {
     fetchGeItem();
@@ -150,6 +187,29 @@ for (var i=0;i<x1.length;i++) {
               if(geItems[j].item_id==x1[i].id)
               {
                 setcreate_name(geItems[j].item_sp);
+                break;
+              }
+            }
+            
+            break;
+        }
+    } 
+    
+  }
+
+  let handleeditItem=(e)=>{
+    setedit_name(e.target.value);
+
+    let x1 = document.getElementById("programmingLanguages").options;
+for (var i=0;i<x1.length;i++) {
+        if (x1[i].value == e.target.value) {
+            console.log(x1[i].id);
+            // alert('The index of SellectedIndex is : ' + i + ' and the value is : '  +x[i].value);
+            for(let j=0;j<geItems.length;j++)
+            {
+              if(geItems[j].item_id==x1[i].id)
+              {
+                setedit_rate(geItems[j].item_sp);
                 break;
               }
             }
@@ -253,15 +313,7 @@ for (var i=0;i<x1.length;i++) {
     setgrandTotal(grandTotal+enter_amount);
   };
 
-  const [create_shortname,setcreate_shortname]=useState("");
-  const [create_name,setcreate_name]=useState("");
-  const [create_company,setcreate_company]=useState("");
-  const [create_modal,setcreate_modal]=useState("");
-  const [create_subcategory,setcreate_subcategory]=useState("");
-  const [create_warranty,setcreate_warranty]=useState("");
-  const [create_cp,setcreate_cp]=useState("");
-  const [create_sp,setcreate_sp]=useState("");
-  const [create_description,setcreate_description]=useState("");
+  
 
 
   let handleSelectionItem = (itemId)=>{
@@ -383,7 +435,7 @@ for (var i=0;i<x1.length;i++) {
     <div style={{display:'flex'}}>
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>ITEM NAME</h6>
-  <input id="" className='' type="text" value={edit_name} list="programmingLanguages" placeholder="ENTER ITEM NAME" onChange={handleeditname} required/>
+  <input id="" className='' type="text" value={edit_name} list="programmingLanguages" placeholder="ENTER ITEM NAME" onChange={handleeditItem} required/>
 
   <datalist id="programmingLanguages">
 
