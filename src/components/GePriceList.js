@@ -74,15 +74,16 @@ function GePriceList() {
   }, [currentItem_short]);
 
   useEffect(() => {
+    //alert("check")
     setFilterGeItems([]);
     let newArray = [];
     if (currentItem_company.length == 0) {
       setFilterGeItems([]);
     }
     if (currentItem_company.length >= 1) {
-      geItems.filter(geItem => geItem.item_company.includes(currentItem_company) && geItem.item_shortName.includes(currentItem_short)).map(filteredItem => (
-        newArray.push(filteredItem)
-
+       geItems.filter(geItem => geItem.item_company.includes(currentItem_company) && geItem.item_shortname.includes(currentItem_short)).map(filteredItem => (
+         newArray.push(filteredItem)
+      //alert(currentItem_company)
       ))
       setFilterGeItems(newArray)
     }

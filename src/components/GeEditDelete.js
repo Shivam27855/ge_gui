@@ -80,7 +80,7 @@ function GeEditDelete() {
       setFilterGeItems([]);
     }
     if (currentItem_company.length >= 1) {
-      geItems.filter(geItem => geItem.item_company.includes(currentItem_company) && geItem.item_shortName.includes(currentItem_short)).map(filteredItem => (
+      geItems.filter(geItem => geItem.item_company.includes(currentItem_company) && geItem.item_shortname.includes(currentItem_short)).map(filteredItem => (
         newArray.push(filteredItem)
 
       ))
@@ -117,6 +117,11 @@ function GeEditDelete() {
     }
   }
 
+  let handleNewShortNameChange = (id, value, index) => {
+    const newTodo = [...geFilterItems];
+    newTodo[index].item_shortname = value;
+    setFilterGeItems(newTodo);
+  }
 
   let handleNewNameChange = (id, value, index) => {
     const newTodo = [...geFilterItems];
@@ -138,7 +143,7 @@ function GeEditDelete() {
 
   let handleNewSubCategoryChange = (id, value, index) => {
     const newTodo = [...geFilterItems];
-    newTodo[index].item_subcategary = value;
+    newTodo[index].item_subcategory = value;
     setFilterGeItems(newTodo);
   }
 
@@ -243,6 +248,7 @@ for (let i = 0; i < newEdit.length; i++) {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          "item_shortname": document.getElementById(`editshortname_${item_id}`).value,
           "item_name": document.getElementById(`editname_${item_id}`).value,
           "item_company": document.getElementById(`editcompany_${item_id}`).value,
           "item_modal": document.getElementById(`editmodal_${item_id}`).value,
@@ -311,18 +317,33 @@ for (let i = 0; i < newEdit.length; i++) {
     //document.getElementById(todoId).removeAttribute("disabled");
 
   }
-  return (<div>
+  return (<div style={{ margin: "auto",marginTop:"2vh",width:"165vh",height:"10vh"}}>
 
+    
+<div style={{display:'flex'}}>
+  <div style={{margin: "auto",marginTop:"1vh",width:"40vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>NAME SEARCH</h6><input className='' type="text" value={currentItem_short} placeholder="ENTER ITEM" onChange={handleItemChange} />
 
-    <div className="inputField">
-      <h6>Shortname</h6><input className='' type="text" value={currentItem_short} placeholder="Enter Item Name" onChange={handleItemChange} />
-      <h6>Compname</h6><input className='' type="text" value={currentItem_company} placeholder="Enter Company Name" onChange={handleItemCompanyChange} />
+  </div>
+  <div style={{margin: "auto",marginTop:"1vh",width:"40vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>COMPANY SEARCH</h6><input className='' type="text" value={currentItem_company} placeholder="ENTER COMPANY" onChange={handleItemCompanyChange} />
 
-    </div>
+  </div>
 
-    <Table striped bordered hover>
-      <thead>
+  <div style={{margin: "auto",marginTop:"1vh",width:"40vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
+  <h6>MODAL SEARCH</h6><input className='' type="text" value={currentItem_company} placeholder="ENTER MODAL" onChange={handleItemCompanyChange} />
+
+  </div>
+
+        </div>
+
+    <div style={{height: "65vh", overflow: "auto",marginTop:"1vh"}}>
+
+    <Table striped bordered hover style={{height: "80vh"}}>
+      <thead style={{position: "sticky",top: "0px",backgroundColor:"lightyellow"}}>
         <tr>
+        <th>ACTIONS</th>
+        <th>SHORT NAME</th>
           <th>NAME</th>
           <th>COMPANY</th>
           <th>MODEL</th>
@@ -331,13 +352,20 @@ for (let i = 0; i < newEdit.length; i++) {
           <th>COST PRICE</th>
           <th>SELLING PRICE</th>
           <th>DESCRIPTION</th>
-          <th>ACTIONS</th>
+         
         </tr>
       </thead>
 
       <tbody>
         {geFilterItems.map(
           (geFilterItem, index) => <tr id={geFilterItem.item_id} key={geFilterItem.item_id}>
+
+<td><button className='editButton' style={{ visibility: "visible" }} id={"editButton_" + geFilterItem.item_id} onClick={() => handleEdit(geFilterItem.item_id, index)}><FiEdit /></button>
+              <button className='saveButton' style={{ visibility: "hidden" }} id={"saveButton_" + geFilterItem.item_id} onClick={() => handleSave(geFilterItem.item_id, index)}><RiSave2Fill /></button>
+              <button className='cancelButton' style={{ visibility: "hidden" }} id={"cancelButton_" + geFilterItem.item_id} onClick={() => handleCancel(geFilterItem.item_id, index)}><GiCancel /></button>
+              <button className='deleteButton' style={{ visibility: "visible" }} id={"deleteButton_" + geFilterItem.item_id} onClick={()=>handleDelete(geFilterItem.item_id, index)}><AiFillDelete /></button></td>
+              
+              <td>{editOn[index] ? <input id={`editshortname_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_shortname} placeholder="EDIT SHORT NAME" onChange={(e) => { handleNewShortNameChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_shortname}</td>
 
             <td>{editOn[index] ? <input id={`editname_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_name} placeholder="EDIT NAME" onChange={(e) => { handleNewNameChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_name}</td>
             <td>{editOn[index] ? <input id={`editcompany_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_company} placeholder="EDIT COMPANY" onChange={(e) => { handleNewCompanyChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_company}</td>
@@ -347,11 +375,7 @@ for (let i = 0; i < newEdit.length; i++) {
             <td>{editOn[index] ? <input id={`editcp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_cp} placeholder="EDIT COST PRICE" onChange={(e) => { handleNewCpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_cp}</td>
             <td>{editOn[index] ? <input id={`editsp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_sp} placeholder="EDIT SELLING PRICE" onChange={(e) => { handleNewSpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_sp}</td>
             <td>{editOn[index] ? <input id={`editdescription_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_description} placeholder="EDIT DESCRIPTION" onChange={(e) => { handleNewDescriptionChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_description}</td>
-            <td><button className='editButton' style={{ visibility: "visible" }} id={"editButton_" + geFilterItem.item_id} onClick={() => handleEdit(geFilterItem.item_id, index)}><FiEdit /></button>
-              <button className='saveButton' style={{ visibility: "hidden" }} id={"saveButton_" + geFilterItem.item_id} onClick={() => handleSave(geFilterItem.item_id, index)}><RiSave2Fill /></button>
-              <button className='cancelButton' style={{ visibility: "hidden" }} id={"cancelButton_" + geFilterItem.item_id} onClick={() => handleCancel(geFilterItem.item_id, index)}><GiCancel /></button>
-              <button className='deleteButton' style={{ visibility: "visible" }} id={"deleteButton_" + geFilterItem.item_id} onClick={()=>handleDelete(geFilterItem.item_id, index)}><AiFillDelete /></button></td>
-
+           
 
 
 
@@ -359,6 +383,7 @@ for (let i = 0; i < newEdit.length; i++) {
         )}
       </tbody>
     </Table>
+    </div>
   </div>);
 }
 export default GeEditDelete;
