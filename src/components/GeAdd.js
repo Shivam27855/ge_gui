@@ -141,7 +141,7 @@ function GeAdd() {
   const [create_company,setcreate_company]=useState("");
   const [create_modal,setcreate_modal]=useState("");
   const [create_subcategory,setcreate_subcategory]=useState("");
-  const [create_warranty,setcreate_warranty]=useState("");
+  const [create_warranty,setcreate_warranty]=useState("NO");
   const [create_cp,setcreate_cp]=useState("");
   const [create_sp,setcreate_sp]=useState("");
   const [create_description,setcreate_description]=useState("");

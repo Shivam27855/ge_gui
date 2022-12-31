@@ -27,7 +27,7 @@ function GeEstimation() {
 
   const [geItems, setGeItems] = useState([]);
   const [geFilterItems, setFilterGeItems] = useState([]);
-  const [enter_quantity,setenter_quantity]=useState(0);
+  const [enter_quantity,setenter_quantity]=useState(1);
   const [enter_amount,setenter_amount]=useState();
   const [geEstimationItems,setgeEstimationItems]=useState([]);
   const [grandTotal,setgrandTotal]=useState(0);
@@ -46,7 +46,7 @@ function GeEstimation() {
   const [prevAmount,setprevAmount]=useState();
 
   const [create_shortname,setcreate_shortname]=useState("");
-  const [create_name,setcreate_name]=useState("");
+  const [create_name,setcreate_name]=useState(0);
   const [create_company,setcreate_company]=useState("");
   const [create_modal,setcreate_modal]=useState("");
   const [create_subcategory,setcreate_subcategory]=useState("");
@@ -367,7 +367,7 @@ for (var i=0;i<x1.length;i++) {
   
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>AMOUNT</h6>
-  <input className='' type="number" value={enter_amount} placeholder="ENTER AMOUNT" onChange={handleamount} required/>
+  <input className='' type="number" value={enter_amount} placeholder="ENTER AMOUNT" onChange={handleamount} disabled={true}/>
 
   
 
@@ -474,7 +474,7 @@ for (var i=0;i<x1.length;i++) {
   
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>AMOUNT</h6>
-  <input className='' type="number" value={edit_amount} placeholder="ENTER AMOUNT" onChange={handleeditamount} required/>
+  <input className='' type="number" value={edit_amount} placeholder="ENTER AMOUNT" onChange={handleeditamount} disabled={true}/>
 
   
 
@@ -507,7 +507,7 @@ for (var i=0;i<x1.length;i++) {
 
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"5vh",border:"1px solid #000",borderRadius: "4px"}}>
 
-  <input className='' type="number" value={grandTotal}/>
+  <input className='' type="number" value={grandTotal} disabled={true}/>
 
   
 
