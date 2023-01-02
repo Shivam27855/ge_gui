@@ -8,7 +8,7 @@ import { GiCancel } from 'react-icons/gi'
 import { AiFillDelete } from 'react-icons/ai'
 import Table from 'react-bootstrap/Table';
 import $ from "jquery";
-function GeProfile() {
+function GeProfile(props) {
   const baseURL = "http://localhost:5000";
   //const baseURL ="https://lime-alert-deer.cyclic.app/";
 
@@ -311,9 +311,22 @@ for (let i = 0; i < newEdit.length; i++) {
     //document.getElementById(todoId).removeAttribute("disabled");
 
   }
-  return (<div>
 
-<h1>profile Section</h1>
+  let handleValue =()=>{
+
+    // let newArray = [...props.profileData]
+    // newArray.push("c");
+    // props.setprofileData(newArray);
+
+    props.addValue("d");
+  }
+
+  return (<div>
+    {
+      props.profileData.map((item,index)=><h3>{item}</h3>)
+      
+    }
+    <button onClick={handleValue}>add</button>
   </div>);
 }
 export default GeProfile;
