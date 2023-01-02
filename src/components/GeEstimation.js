@@ -218,6 +218,11 @@ for (var i=0;i<x1.length;i++) {
 
  }
 
+ let handleClearEstimationItem=()=>{
+  props.setgeEstimationItems([]);
+  props.setgrandTotal(0);
+ }
+
     
   
     
@@ -321,6 +326,9 @@ for (var i=0;i<x1.length;i++) {
       handleClose={togglePopup}
     />}
     <div style={{display:'flex'}}>
+    
+    <button className='' type="submit" onClick={handleClearEstimationItem}>CLEAR</button>
+ 
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"5vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>GRAND TOTAL</h6>
     </div>
