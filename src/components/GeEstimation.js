@@ -1,257 +1,248 @@
 import '../App.css';
 import { useState, useEffect } from "react";
 import ToDoItem from './TodoItem';
-import GeHome from './GeHome';
-import $ from "jquery";
-import Table from 'react-bootstrap/Table';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FiEdit } from 'react-icons/fi';
 import { RiSave2Fill } from 'react-icons/ri'
 import { GiCancel } from 'react-icons/gi'
 import { AiFillDelete } from 'react-icons/ai'
+import Table from 'react-bootstrap/Table';
 import Popup from './Popup';
-
-function GeEstimation() {
+import $ from "jquery";
+function GeEstimation(props) {
     const baseURL = "http://localhost:5000";
 
-  //add states
-  const [create_shortname,setcreate_shortname]=useState("");
-  const [create_name,setcreate_name]=useState(0);
-  const [geItems, setGeItems] = useState([]);
-  const [enter_quantity,setenter_quantity]=useState(1);
-  const [enter_amount,setenter_amount]=useState();
-  const [geEstimationItems,setgeEstimationItems]=useState([]);
-  const [grandTotal,setgrandTotal]=useState(0);
+    //add section
+    useEffect(() => {
+        fetchGeItem();
+      }, []);
 
-  
-
-  //edit states
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedIndex,setSelectedIndex]=useState();
-  const [prevAmount,setprevAmount]=useState();
-  const [edit_quantity,setedit_quantity]=useState();
-  const [edit_amount,setedit_amount]=useState();
-  const [edit_name,setedit_name]=useState();
-  const [edit_rate,setedit_rate]=useState();
-
-  
-  
-  //add
-  useEffect(()=>{setenter_amount(enter_quantity*create_name)},[enter_quantity])
-
-  useEffect(() => {
-    setenter_amount(enter_quantity*create_name)
-  }, [create_name]);
-
-  useEffect(() => {
-    setenter_amount(enter_quantity*create_name)
-  }, [enter_quantity]);
-
-
-  
-  let handleAddItem = (e) => {
-    e.preventDefault();
- 
-    const va = {item_name:create_shortname,item_rate:create_name,item_quantity:enter_quantity,item_amount:enter_amount}
-
-    const arr = [...geEstimationItems];
-    arr.push(va);
-    //setFilterGeItems(arr);
-
-    setgeEstimationItems(arr);
-    setgrandTotal(grandTotal+enter_amount);
-  };
-
-  let handlecreate_name=(e)=>{
-    setcreate_name(e.target.value);
-  }
-
-  let handlequantity=(e)=>{
-    setenter_quantity(e.target.value);    
-  }
-
-  let handlecreate_shortname=(e)=>{
-    setcreate_shortname(e.target.value);
-
-    let x1 = document.getElementById("programmingLanguages").options;
-for (var i=0;i<x1.length;i++) {
-        if (x1[i].value == e.target.value) {
-            console.log(x1[i].id);
-            // alert('The index of SellectedIndex is : ' + i + ' and the value is : '  +x[i].value);
-            for(let j=0;j<geItems.length;j++)
-            {
-              if(geItems[j].item_id==x1[i].id)
-              {
-                setcreate_name(geItems[j].item_sp);
-                break;
-              }
-            }
-            
-            break;
-        }
-    } 
+      let fetchGeItem = () => {
+        try {
+          fetch(`${baseURL}/getGeItem`, {
+            method: "get",
+            headers: { 'Content-Type': 'application/json' },
+          })
+            .then((res) => res.json())
+            .then((json) => {
+              if (json.length != 0) {
+                console.log(json);
+                //setCheckLoginStatus(true);
     
-  }
-
-  let fetchGeItem = () => {
-    try {
-      fetch(`${baseURL}/getGeItem`, {
-        method: "get",
-        headers: { 'Content-Type': 'application/json' },
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          if (json.length != 0) {
-            console.log(json);
-            //setCheckLoginStatus(true);
-
-            if (json.error == "No Item in Inventory") {
-              //setEmptyToDoList(true);
-            }
-            else {
-              setGeItems(json);
-              console.log(geItems);
-              //setEmptyToDoList(false);
-            }
-
-          }
-        })
-    } catch (err) {
-      alert("Login Fail")
-      console.log(err);
-    }
-  }
-
-
-  useEffect(() => {
-    fetchGeItem();
-  }, []);
-
-
-
-  
-
-
-  
-  
-
-  //Edit functions
-  useEffect(()=>{setedit_amount(edit_quantity*edit_rate)},[edit_quantity])
-
-  useEffect(() => {
-    setedit_amount(edit_quantity*edit_rate)
-  }, [edit_rate]);
-
-  useEffect(() => {
-    setedit_amount(edit_quantity*edit_rate)
-  }, [edit_quantity]);
-
-  useEffect(() => {
-    const close = (e) => {
-      if(e.keyCode === 27){
-        setIsOpen(false);
+                if (json.error == "No Item in Inventory") {
+                  //setEmptyToDoList(true);
+                }
+                else {
+                    props.setGeItems(json);
+                  console.log(props.geItems);
+                  //setEmptyToDoList(false);
+                }
+    
+              }
+            })
+        } catch (err) {
+          alert("Login Fail")
+          console.log(err);
+        }
       }
+    
+
+    useEffect(()=>{props.setenter_amount(props.enter_quantity*props.create_name)},[props.enter_quantity])
+
+    useEffect(() => {
+        props.setenter_amount(props.enter_quantity*props.create_name)
+    }, [props.create_name]);
+  
+    useEffect(() => {
+        props.setenter_amount(props.enter_quantity*props.create_name)
+    }, [props.enter_quantity]);
+  
+  
+    
+    let handleAddItem = (e) => {
+      e.preventDefault();
+   
+      const va = {item_name:props.create_shortname,item_rate:props.create_name,item_quantity:props.enter_quantity,item_amount:props.enter_amount}
+  
+      const arr = [...props.geEstimationItems];
+      arr.push(va);
+      //setFilterGeItems(arr);
+  
+      props.setgeEstimationItems(arr);
+      props.setgrandTotal(props.grandTotal+props.enter_amount);
+    };
+  
+    let handlecreate_name=(e)=>{
+        props.setcreate_name(e.target.value);
     }
-    window.addEventListener('keydown', close)
-  return () => window.removeEventListener('keydown', close)
+  
+    let handlequantity=(e)=>{
+        props.setenter_quantity(e.target.value);    
+    }
+  
+    let handlecreate_shortname=(e)=>{
+        props.setcreate_shortname(e.target.value);
+  
+      let x1 = document.getElementById("programmingLanguages").options;
+  for (var i=0;i<x1.length;i++) {
+          if (x1[i].value == e.target.value) {
+              console.log(x1[i].id);
+              // alert('The index of SellectedIndex is : ' + i + ' and the value is : '  +x[i].value);
+              for(let j=0;j<props.geItems.length;j++)
+              {
+                if(props.geItems[j].item_id==x1[i].id)
+                {
+                    props.setcreate_name(props.geItems[j].item_sp);
+                  break;
+                }
+              }
+              
+              break;
+          }
+      } 
+      
+    }
+
+/*****************************************************************************************
+ * ***************************************************************************************
+ * Edit Section
+ * ***************************************************************************************
+ */
+    
+ //Edit functions
+ useEffect(()=>{props.setedit_amount(props.edit_quantity*props.edit_rate)},[props.edit_quantity])
+
+ useEffect(() => {
+    props.setedit_amount(props.edit_quantity*props.edit_rate)
+ }, [props.edit_rate]);
+
+ useEffect(() => {
+    props.setedit_amount(props.edit_quantity*props.edit_rate)
+ }, [props.edit_quantity]);
+
+ useEffect(() => {
+   const close = (e) => {
+     if(e.keyCode === 27){
+        props.setIsOpen(false);
+     }
+   }
+   window.addEventListener('keydown', close)
+ return () => window.removeEventListener('keydown', close)
 },[])
 
-  let handleeditamount=(e)=>{
-    setedit_amount(e.target.value);
-  }
+ let handleeditamount=(e)=>{
+    props.setedit_amount(e.target.value);
+ }
 
-  let handleeditquantity=(e)=>{
-    setedit_quantity(e.target.value);
-    //setedit_amount(edit_quantity*edit_rate);
-  }
+ let handleeditquantity=(e)=>{
+    props.setedit_quantity(e.target.value);
+   //setedit_amount(edit_quantity*edit_rate);
+ }
 
-  let handleeditrate=(e)=>{
-    setedit_rate(e.target.value);
-  }
+ let handleeditrate=(e)=>{
+    props.setedit_rate(e.target.value);
+ }
 
-  let handleeditItem=(e)=>{
-    setedit_name(e.target.value);
+ let handleeditItem=(e)=>{
+    props.setedit_name(e.target.value);
 
-    let x1 = document.getElementById("programmingLanguages").options;
+   let x1 = document.getElementById("programmingLanguages").options;
 for (var i=0;i<x1.length;i++) {
-        if (x1[i].value == e.target.value) {
-            console.log(x1[i].id);
-            // alert('The index of SellectedIndex is : ' + i + ' and the value is : '  +x[i].value);
-            for(let j=0;j<geItems.length;j++)
-            {
-              if(geItems[j].item_id==x1[i].id)
-              {
-                setedit_rate(geItems[j].item_sp);
-                break;
-              }
-            }
-            
-            break;
-        }
-    } 
-    
-  }
+       if (x1[i].value == e.target.value) {
+           console.log(x1[i].id);
+           // alert('The index of SellectedIndex is : ' + i + ' and the value is : '  +x[i].value);
+           for(let j=0;j<props.geItems.length;j++)
+           {
+             if(props.geItems[j].item_id==x1[i].id)
+             {
+                props.setedit_rate(props.geItems[j].item_sp);
+               break;
+             }
+           }
+           
+           break;
+       }
+   } 
+   
+ }
 
-  let handleDelete=(index)=>{
-    const arr = [];
-    let getAmount = geEstimationItems[index].item_amount;
-    for (var i=0;i<geEstimationItems.length;i++) {
-      if (i != index) {
-        arr.push(geEstimationItems[i]);
-      }
-  } 
-    setgeEstimationItems(arr);
-    setgrandTotal(grandTotal-getAmount);
-  }
+ let handleDelete=(index)=>{
+   const arr = [];
+   let getAmount = props.geEstimationItems[index].item_amount;
+   for (var i=0;i<props.geEstimationItems.length;i++) {
+     if (i != index) {
+       arr.push(props.geEstimationItems[i]);
+     }
+ } 
+ props.setgeEstimationItems(arr);
+ props.setgrandTotal(props.grandTotal-getAmount);
+ }
+
+ const togglePopup = (index) => {
+   console.log(index);
+   props.setSelectedIndex(index);
+   props.setIsOpen(!props.isOpen);
+
+   for (var i=0;i<props.geEstimationItems.length;i++) {
+     if (i == index) {
+        props.setedit_name(props.geEstimationItems[i].item_name)
+        props.setedit_rate(props.geEstimationItems[i].item_rate)
+        props.setedit_quantity(props.geEstimationItems[i].item_quantity)
+        props.setedit_amount(props.geEstimationItems[i].item_amount)
+        props.setprevAmount(props.geEstimationItems[i].item_amount)
+         break;
+     }
+ } 
+ }
+
  
-  const togglePopup = (index) => {
-    console.log(index);
-    setSelectedIndex(index);
-    setIsOpen(!isOpen);
+ let handleEditItem=()=>{
+   console.log(props.selectedIndex);
 
-    for (var i=0;i<geEstimationItems.length;i++) {
-      if (i == index) {
-          setedit_name(geEstimationItems[i].item_name)
-    setedit_rate(geEstimationItems[i].item_rate)
-    setedit_quantity(geEstimationItems[i].item_quantity)
-    setedit_amount(geEstimationItems[i].item_amount)
-    setprevAmount(geEstimationItems[i].item_amount)
-          break;
-      }
-  } 
-  }
+   //const va = {item_name:create_shortname,item_rate:create_name,item_quantity:enter_quantity,item_amount:enter_amount}
 
+   
+   const arr = [...props.geEstimationItems];
+   console.log(arr[props.selectedIndex]);
+   arr[props.selectedIndex].item_name=props.edit_name;
+   arr[props.selectedIndex].item_rate=props.edit_rate;
+   arr[props.selectedIndex].item_quantity=props.edit_quantity;
+   arr[props.selectedIndex].item_amount=props.edit_rate*props.edit_quantity;
+   props.setgeEstimationItems(arr);
+   props.setIsOpen(!props.isOpen);
+   
+   //setFilterGeItems(arr);
+
+   
+   props.setgrandTotal(props.grandTotal-props.prevAmount+(props.edit_rate*props.edit_quantity));
+
+ }
+
+    
   
-  let handleEditItem=()=>{
-    console.log(selectedIndex);
-
-    //const va = {item_name:create_shortname,item_rate:create_name,item_quantity:enter_quantity,item_amount:enter_amount}
-
     
-    const arr = [...geEstimationItems];
-    console.log(arr[selectedIndex]);
-    arr[selectedIndex].item_name=edit_name;
-    arr[selectedIndex].item_rate=edit_rate;
-    arr[selectedIndex].item_quantity=edit_quantity;
-    arr[selectedIndex].item_amount=edit_rate*edit_quantity;
-    setgeEstimationItems(arr);
-    setIsOpen(!isOpen);
-    
-    //setFilterGeItems(arr);
 
-    
-    setgrandTotal(grandTotal-prevAmount+(edit_rate*edit_quantity));
 
+   
+    
+
+
+
+  let handleValue =()=>{
+    props.addValue("c");
   }
 
-  return (
-    <div style={{ margin: "auto",marginTop:"2vh",width:"165vh",height:"10vh"}}>
+
+
+
+  return (<div style={{ margin: "auto",marginTop:"2vh",width:"165vh",height:"10vh"}}>
     <form onSubmit={handleAddItem}>
     <div style={{display:'flex'}}>
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>ITEM NAME</h6>
-  <input id="selValue" className='' type="text" value={create_shortname} list="programmingLanguages" placeholder="ENTER ITEM NAME" onChange={handlecreate_shortname} required/>
+  <input id="selValue" className='' type="text" value={props.create_shortname} list="programmingLanguages" placeholder="ENTER ITEM NAME" onChange={handlecreate_shortname} required/>
   <datalist id="programmingLanguages">
-  {geItems.map(
+  {props.geItems.map(
           (geItem, index) =>
           <option id={geItem.item_id} value={`${geItem.item_name} ${geItem.item_company} ${geItem.item_modal}`}>{`${geItem.item_name} ${geItem.item_company} ${geItem.item_modal}`}</option>
         )}                
@@ -259,15 +250,15 @@ for (var i=0;i<x1.length;i++) {
   </div>
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>RATE</h6>
-  <input className='' type="number" value={create_name} placeholder="ENTER RATE" onChange={handlecreate_name} required/>
+  <input className='' type="number" value={props.create_name} placeholder="ENTER RATE" onChange={handlecreate_name} required/>
   </div>
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>QUANTITY</h6>
-  <input className='' type="number" value={enter_quantity} placeholder="ENTER QUANTITY" onChange={handlequantity} required/>
+  <input className='' type="number" value={props.enter_quantity} placeholder="ENTER QUANTITY" onChange={handlequantity} required/>
   </div>
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>AMOUNT</h6>
-  <input className='' type="number" value={enter_amount} placeholder="ENTER AMOUNT" disabled={true}/>
+  <input className='' type="number" value={props.enter_amount} placeholder="ENTER AMOUNT" disabled={true}/>
   </div>  
   <button className='' type="submit">ADD</button>
         </div>
@@ -284,9 +275,9 @@ for (var i=0;i<x1.length;i++) {
         </tr>
       </thead>
       <tbody>
-         {geEstimationItems.map(
+         {props.geEstimationItems.map(
           (geEstimationItem, index) => <tr id={index} key={index}>
-            <td><button className='editButton' style={{ visibility: "visible" }} onClick={()=>togglePopup(index)}><FiEdit /></button>
+             <td><button className='editButton' style={{ visibility: "visible" }} onClick={()=>togglePopup(index)}><FiEdit /></button>
               <button className='saveButton' style={{ visibility: "hidden" }}><RiSave2Fill /></button>
               <button className='cancelButton' style={{ visibility: "hidden" }}><GiCancel /></button>
               <button className='deleteButton' style={{ visibility: "visible" }} onClick={()=>handleDelete(index)}><AiFillDelete /></button></td>
@@ -299,14 +290,14 @@ for (var i=0;i<x1.length;i++) {
       </tbody>
     </Table>
     </div>
-    {isOpen && <Popup
+    {props.isOpen && <Popup
       content={<>
     <div style={{display:'flex'}}>
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>ITEM NAME</h6>
-  <input id="" className='' type="text" value={edit_name} list="programmingLanguages" placeholder="ENTER ITEM NAME" onChange={handleeditItem} required/>
+  <input id="" className='' type="text" value={props.edit_name} list="programmingLanguages" placeholder="ENTER ITEM NAME" onChange={handleeditItem} required/>
   <datalist id="programmingLanguages">
-  {geItems.map(
+  {props.geItems.map(
           (geItem, index) =>
           <option id={geItem.item_id} value={`${geItem.item_name} ${geItem.item_company} ${geItem.item_modal}`}>{`${geItem.item_name} ${geItem.item_company} ${geItem.item_modal}`}</option>
         )}                
@@ -314,15 +305,15 @@ for (var i=0;i<x1.length;i++) {
   </div>
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>RATE</h6>
-  <input className='' type="number" value={edit_rate} placeholder="ENTER RATE" onChange={handleeditrate} required/>
+  <input className='' type="number" value={props.edit_rate} placeholder="ENTER RATE" onChange={handleeditrate} required/>
   </div>
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>QUANTITY</h6>
-  <input className='' type="number" value={edit_quantity} placeholder="ENTER QUANTITY" onChange={handleeditquantity} required/>
+  <input className='' type="number" value={props.edit_quantity} placeholder="ENTER QUANTITY" onChange={handleeditquantity} required/>
   </div>  
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>AMOUNT</h6>
-  <input className='' type="number" value={edit_amount} placeholder="ENTER AMOUNT" onChange={handleeditamount} disabled={true}/>
+  <input className='' type="number" value={props.edit_amount} placeholder="ENTER AMOUNT" onChange={handleeditamount} disabled={true}/>
   </div>
   <button className='' type="submit" onClick={handleEditItem}>SAVE CHANGES</button>
         </div>
@@ -334,10 +325,9 @@ for (var i=0;i<x1.length;i++) {
   <h6>GRAND TOTAL</h6>
     </div>
   <div style={{margin: "auto",marginTop:"1vh",width:"32vh",height:"5vh",border:"1px solid #000",borderRadius: "4px"}}>
-  <input className='' type="number" value={grandTotal} disabled={true}/>
+  <input className='' type="number" value={props.grandTotal} disabled={true}/>
   </div>
         </div>
   </div>);
 }
-
 export default GeEstimation;

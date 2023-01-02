@@ -6,7 +6,7 @@ import GePriceList from "./GePriceList";
 import GeAdd from "./GeAdd";
 import GeEditDelete from "./GeEditDelete";
 import GeProfile from "./GeProfile";
-import GeCheck from "./GeCheck";
+
 import { useEffect, useState } from "react";
 
 
@@ -59,10 +59,6 @@ function GeHome() {
     setcurrentPage("PROFILE");
   }
 
-  let check=()=>{
-    setcurrentPage("check");
-  }
-
   //profileSection();
   return (
 
@@ -84,9 +80,6 @@ function GeHome() {
         <div style={{ margin: "auto",marginTop:"5vh",width:"150px",height:"",border:"1px solid #000",borderRadius: "8px"}}>
         <h5 className='footer'><button onClick={profile}>PROFILE</button></h5>
         </div>
-        <div style={{ margin: "auto",marginTop:"5vh",width:"150px",height:"",border:"1px solid #000",borderRadius: "8px"}}>
-        <h5 className='footer'><button onClick={check}>CHECK</button></h5>
-        </div>
 </div>
 <div style={{width:"500vh",height: '100vh',border:"1px solid #000"}}>
 
@@ -105,14 +98,7 @@ function GeHome() {
         {currentPage=="PRICE LIST"?
         <GePriceList />:
         currentPage=="ESTIMATION"?
-        <GeEstimation />:
-        currentPage=="ADD ITEM"?
-        <GeAdd/>:
-        currentPage=="EDIT/DELETE ITEM"?
-        <GeEditDelete />:
-        currentPage=="PROFILE"?
-        <ProfileSection profileData={profileData} setprofileData={setprofileData}/>:
-        <CheckSection create_shortname={create_shortname} setcreate_shortname={setcreate_shortname}
+        <GeEstSection  create_shortname={create_shortname} setcreate_shortname={setcreate_shortname}
         create_name={create_name} setcreate_name={setcreate_name}
         geItems={geItems} setGeItems={setGeItems}
         enter_quantity={enter_quantity} setenter_quantity={setenter_quantity}
@@ -126,7 +112,12 @@ function GeHome() {
         edit_amount={edit_amount} setedit_amount={setedit_amount}
         edit_name={edit_name} setedit_name={setedit_name}
         edit_rate={edit_rate} setedit_rate={setedit_rate}
-        />
+        />:
+        currentPage=="ADD ITEM"?
+        <GeAdd/>:
+        currentPage=="EDIT/DELETE ITEM"?
+        <GeEditDelete />:
+        <ProfileSection profileData={profileData} setprofileData={setprofileData}/>        
         }
 
      
@@ -167,7 +158,7 @@ let ProfileSection=(props)=>
   return <GeProfile profileData={props.profileData} addValue={addValue} setprofileData={props.setprofileData}/>
 }
 
-let CheckSection=(props)=>
+let GeEstSection=(props)=>
 {
   
   let addValue=(newValue)=>{
@@ -175,7 +166,7 @@ let CheckSection=(props)=>
     newArray.push(newValue);
     props.setprofileData(newArray);
   }
-  return <GeCheck showData={props.profileData} addValue={addValue}
+  return <GeEstimation showData={props.profileData} addValue={addValue}
   create_shortname={props.create_shortname} setcreate_shortname={props.setcreate_shortname}
         create_name={props.create_name} setcreate_name={props.setcreate_name}
         geItems={props.geItems} setGeItems={props.setGeItems}
