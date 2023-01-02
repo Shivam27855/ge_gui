@@ -18,6 +18,12 @@ function GeHome() {
   const [currentPage,setcurrentPage]=useState("PRICE LIST");
   const [profileData,setprofileData]=useState(["a"]);
 
+  //Price List Section
+  const [geItemsPriceList, setGeItemsPriceList] = useState([]);
+  const [geFilterItems, setFilterGeItems] = useState([]);
+  const [currentItem_short, setcurrentItem_short] = useState("");
+  const [currentItem_company, setcurrentItem_company] = useState("");
+
   //Estimation Section - add
   const [create_shortname,setcreate_shortname]=useState("");
   const [create_name,setcreate_name]=useState(0);
@@ -96,7 +102,10 @@ function GeHome() {
         <div style={{ margin: "auto",marginTop:"2vh",width:"165vh",height:"88vh",border:"1px solid #000",borderRadius: "4px"}}>
 
         {currentPage=="PRICE LIST"?
-        <GePriceList />:
+        <GePriceListSection geItemsPriceList={geItemsPriceList} setGeItemsPriceList={setGeItemsPriceList}
+        geFilterItems={geFilterItems} setFilterGeItems={setFilterGeItems}
+        currentItem_short={currentItem_short} setcurrentItem_short={setcurrentItem_short}
+        currentItem_company={currentItem_company} setcurrentItem_company={setcurrentItem_company}/>:
         currentPage=="ESTIMATION"?
         <GeEstSection  create_shortname={create_shortname} setcreate_shortname={setcreate_shortname}
         create_name={create_name} setcreate_name={setcreate_name}
@@ -158,9 +167,17 @@ let ProfileSection=(props)=>
   return <GeProfile profileData={props.profileData} addValue={addValue} setprofileData={props.setprofileData}/>
 }
 
+let GePriceListSection=(props)=>
+{
+  return <GePriceList geItemsPriceList={props.geItemsPriceList} setGeItemsPriceList={props.setGeItemsPriceList}
+  geFilterItems={props.geFilterItems} setFilterGeItems={props.setFilterGeItems}
+  currentItem_short={props.currentItem_short} setcurrentItem_short={props.setcurrentItem_short}
+  currentItem_company={props.currentItem_company} setcurrentItem_company={props.setcurrentItem_company}
+  />
+}
+
 let GeEstSection=(props)=>
 {
-  
   let addValue=(newValue)=>{
     let newArray = [...props.profileData]
     newArray.push(newValue);
