@@ -18,7 +18,7 @@ function GeHome() {
   const [currentPage,setcurrentPage]=useState("PRICE LIST");
   const [profileData,setprofileData]=useState(["a"]);
 
-  //Estimation Section
+  //Estimation Section - add
   const [create_shortname,setcreate_shortname]=useState("");
   const [create_name,setcreate_name]=useState(0);
   const [geItems, setGeItems] = useState([]);
@@ -27,6 +27,14 @@ function GeHome() {
   const [geEstimationItems,setgeEstimationItems]=useState([]);
   const [grandTotal,setgrandTotal]=useState(0);
 
+  //Estimation Section - edit
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedIndex,setSelectedIndex]=useState();
+  const [prevAmount,setprevAmount]=useState();
+  const [edit_quantity,setedit_quantity]=useState();
+  const [edit_amount,setedit_amount]=useState();
+  const [edit_name,setedit_name]=useState();
+  const [edit_rate,setedit_rate]=useState();
 
 
 
@@ -111,6 +119,13 @@ function GeHome() {
         enter_amount={enter_amount} setenter_amount={setenter_amount}
         geEstimationItems={geEstimationItems} setgeEstimationItems={setgeEstimationItems}
         grandTotal={grandTotal} setgrandTotal={setgrandTotal}
+        isOpen={isOpen} setIsOpen={setIsOpen}
+        selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}
+        prevAmount={prevAmount} setprevAmount={setprevAmount}
+        edit_quantity={edit_quantity} setedit_quantity={setedit_quantity}
+        edit_amount={edit_amount} setedit_amount={setedit_amount}
+        edit_name={edit_name} setedit_name={setedit_name}
+        edit_rate={edit_rate} setedit_rate={setedit_rate}
         />
         }
 
@@ -168,6 +183,13 @@ let CheckSection=(props)=>
         enter_amount={props.enter_amount} setenter_amount={props.setenter_amount}
         geEstimationItems={props.geEstimationItems} setgeEstimationItems={props.setgeEstimationItems}
         grandTotal={props.grandTotal} setgrandTotal={props.setgrandTotal}
+        isOpen={props.isOpen} setIsOpen={props.setIsOpen}
+        selectedIndex={props.selectedIndex} setSelectedIndex={props.setSelectedIndex}
+        prevAmount={props.prevAmount} setprevAmount={props.setprevAmount}
+        edit_quantity={props.edit_quantity} setedit_quantity={props.setedit_quantity}
+        edit_amount={props.edit_amount} setedit_amount={props.setedit_amount}
+        edit_name={props.edit_name} setedit_name={props.setedit_name}
+        edit_rate={props.edit_rate} setedit_rate={props.setedit_rate}
   
   />
 }
