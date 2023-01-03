@@ -43,6 +43,17 @@ function GeHome() {
   const [edit_rate,setedit_rate]=useState();
 
 
+  //Edit/Delete Section
+  const [geItemsEditDelete, setGeItemsEditDelete] = useState([]);
+  const [geFilterItemsEditDelete, setFilterGeItemsEditDelete] = useState([]);
+  const [currentItem_shortEditDelete, setcurrentItem_shortEditDelete] = useState("");
+  const [currentItem_companyEditDelete, setcurrentItem_companyEditDelete] = useState("");
+  const [editOn, seteditOn] = useState([false]);
+  const [prevEditValue,setprevEditValue]=useState({});
+  const [prevEditValue2,setprevEditValue2]=useState({});
+  const [showActionButton,setshowActionButton]=useState([true])
+
+
 
 
   let priceList=()=>{
@@ -125,7 +136,14 @@ function GeHome() {
         currentPage=="ADD ITEM"?
         <GeAdd/>:
         currentPage=="EDIT/DELETE ITEM"?
-        <GeEditDelete />:
+        <GeEditDeleteSection geItemsEditDelete={geItemsEditDelete} setGeItemsEditDelete={setGeItemsEditDelete}
+        geFilterItemsEditDelete={geFilterItemsEditDelete} setFilterGeItemsEditDelete={setFilterGeItemsEditDelete}
+        currentItem_shortEditDelete={currentItem_shortEditDelete} setcurrentItem_shortEditDelete={setcurrentItem_shortEditDelete}
+        currentItem_companyEditDelete={currentItem_companyEditDelete} setcurrentItem_companyEditDelete={setcurrentItem_companyEditDelete}
+        editOn={editOn} seteditOn={seteditOn}
+        prevEditValue={prevEditValue} setprevEditValue={setprevEditValue}
+        prevEditValue2={prevEditValue2} setprevEditValue2={setprevEditValue2}
+        showActionButton={showActionButton} setshowActionButton={setshowActionButton}/>:
         <ProfileSection profileData={profileData} setprofileData={setprofileData}/>        
         }
 
@@ -200,6 +218,21 @@ let GeEstSection=(props)=>
         edit_rate={props.edit_rate} setedit_rate={props.setedit_rate}
   
   />
+}
+
+let GeEditDeleteSection=(props)=>
+{
+  return <GeEditDelete geItemsEditDelete={props.geItemsEditDelete} setGeItemsEditDelete={props.setGeItemsEditDelete}
+  geFilterItemsEditDelete={props.geFilterItemsEditDelete} setFilterGeItemsEditDelete={props.setFilterGeItemsEditDelete}
+  currentItem_shortEditDelete={props.currentItem_shortEditDelete} setcurrentItem_shortEditDelete={props.setcurrentItem_shortEditDelete}
+  currentItem_companyEditDelete={props.currentItem_companyEditDelete} setcurrentItem_companyEditDelete={props.setcurrentItem_companyEditDelete}
+  editOn={props.editOn} seteditOn={props.seteditOn}
+  prevEditValue={props.prevEditValue} setprevEditValue={props.setprevEditValue}
+  prevEditValue2={props.prevEditValue2} setprevEditValue2={props.setprevEditValue2}
+  showActionButton={props.showActionButton} setshowActionButton={props.setshowActionButton}
+  />
+
+
 }
 
 export default GeHome;

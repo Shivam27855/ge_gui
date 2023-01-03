@@ -8,21 +8,11 @@ import { GiCancel } from 'react-icons/gi'
 import { AiFillDelete } from 'react-icons/ai'
 import Table from 'react-bootstrap/Table';
 import $ from "jquery";
-function GeEditDelete() {
+function GeEditDelete(props) {
   const baseURL = "http://localhost:5000";
   //const baseURL ="https://lime-alert-deer.cyclic.app/";
 
-  const [geItems, setGeItems] = useState([]);
-  const [geFilterItems, setFilterGeItems] = useState([]);
-
-  const [currentItem_short, setcurrentItem_short] = useState("");
-  const [currentItem_company, setcurrentItem_company] = useState("");
-
-  const [editOn, seteditOn] = useState([false]);
-  const [prevEditValue,setprevEditValue]=useState({});
-  const [prevEditValue2,setprevEditValue2]=useState({});
-
-  const [showActionButton,setshowActionButton]=useState([true])
+  
 
 
   useEffect(() => {
@@ -30,70 +20,75 @@ function GeEditDelete() {
   }, []);
 
   useEffect(() => {
-    setFilterGeItems([]);
-    setprevEditValue([]);
+    fetchUsingName();
+  }, [props.currentItem_shortEditDelete]);
+
+
+  let fetchUsingName=()=>{
+    props.setFilterGeItemsEditDelete([]);
+    props.setprevEditValue([]);
     let newArray = [];
     let newEdit = [];
     let actionButton = []
-    if (currentItem_short.length == 0) {
-      setFilterGeItems([]);
-      setprevEditValue([]);
+    if (props.currentItem_shortEditDelete.length == 0) {
+      props.setFilterGeItemsEditDelete([]);
+      props.setprevEditValue([]);
     }
-    else if (currentItem_short == '*') {
-      setFilterGeItems(geItems);
-      setprevEditValue(geItems);
-      console.log(prevEditValue)
-      for (let i = 0; i < geItems.length; i++) {
+    else if (props.currentItem_shortEditDelete == '*') {
+      props.setFilterGeItemsEditDelete(props.geItemsEditDelete);
+      props.setprevEditValue(props.geItemsEditDelete);
+      console.log(props.prevEditValue)
+      for (let i = 0; i < props.geItemsEditDelete.length; i++) {
         newEdit.push(false);
       }
 
-      seteditOn(newEdit);
+      props.seteditOn(newEdit);
 
-      for (let i = 0; i < geItems.length; i++) {
+      for (let i = 0; i < props.geItemsEditDelete.length; i++) {
         actionButton.push(true);
       }
-      setshowActionButton(actionButton);
+      props.setshowActionButton(actionButton);
      
     }
-    else if (currentItem_short.length >= 1) {
+    else if (props.currentItem_shortEditDelete.length >= 1) {
       
-      geItems.filter(geItem => geItem.item_shortname.includes(currentItem_short)).map(filteredItem => (
+      props.geItemsEditDelete.filter(geItem => geItem.item_shortname.includes(props.currentItem_shortEditDelete)).map(filteredItem => (
         newArray.push(filteredItem)
 
       ))
-      geItems.filter(geItem => geItem.item_shortname.includes(currentItem_short)).map(filteredItem => (
+      props.geItemsEditDelete.filter(geItem => geItem.item_shortname.includes(props.currentItem_shortEditDelete)).map(filteredItem => (
         newEdit.push(false)
 
       ))
 
-      geItems.filter(geItem => geItem.item_shortname.includes(currentItem_short)).map(filteredItem => (
+      props.geItemsEditDelete.filter(geItem => geItem.item_shortname.includes(props.currentItem_shortEditDelete)).map(filteredItem => (
         actionButton.push(true)
 
       ))
-      setFilterGeItems(newArray)
-      setprevEditValue(newArray);
-      seteditOn(newEdit);
-      setshowActionButton(actionButton);
+      props.setFilterGeItemsEditDelete(newArray)
+      props.setprevEditValue(newArray);
+      props.seteditOn(newEdit);
+      props.setshowActionButton(actionButton);
     }
-  }, [currentItem_short]);
+  }
 
   useEffect(() => {
-    setFilterGeItems([]);
-    setprevEditValue([]);
+    props.setFilterGeItemsEditDelete([]);
+    props.setprevEditValue([]);
     let newArray = [];
-    if (currentItem_company.length == 0) {
-      setFilterGeItems([]);
-      setprevEditValue([]);
+    if (props.currentItem_companyEditDelete.length == 0) {
+      props.setFilterGeItemsEditDelete([]);
+      props.setprevEditValue([]);
     }
-    if (currentItem_company.length >= 1) {
-      geItems.filter(geItem => geItem.item_company.includes(currentItem_company) && geItem.item_shortname.includes(currentItem_short)).map(filteredItem => (
+    if (props.currentItem_companyEditDelete.length >= 1) {
+      props.geItemsEditDelete.filter(geItem => geItem.item_company.includes(props.currentItem_companyEditDelete) && geItem.item_shortname.includes(props.currentItem_shortEditDelete)).map(filteredItem => (
         newArray.push(filteredItem)
 
       ))
-      setFilterGeItems(newArray)
-      setprevEditValue(newArray);
+      props.setFilterGeItemsEditDelete(newArray)
+      props.setprevEditValue(newArray);
     }
-  }, [currentItem_company]);
+  }, [props.currentItem_companyEditDelete]);
 
   let fetchGeItem = () => {
     try {
@@ -111,7 +106,8 @@ function GeEditDelete() {
               //setEmptyToDoList(true);
             }
             else {
-              setGeItems(json);
+              props.setGeItemsEditDelete(json);
+              fetchUsingName();
               
               //setEmptyToDoList(false);
             }
@@ -125,94 +121,94 @@ function GeEditDelete() {
   }
 
   let handleNewShortNameChange = (id, value, index) => {
-    const newTodo = [...geFilterItems];
+    const newTodo = [...props.geFilterItemsEditDelete];
     newTodo[index].item_shortname = value;
-    setFilterGeItems(newTodo);
+    props.setFilterGeItemsEditDelete(newTodo);
   }
 
   let handleNewNameChange = (id, value, index) => {
-    const prevV = geFilterItems[index].item_name;
-    const newTodo = [...geFilterItems];
+    const prevV = props.geFilterItemsEditDelete[index].item_name;
+    const newTodo = [...props.geFilterItemsEditDelete];
     newTodo[index].item_name = value;
-    setFilterGeItems(newTodo);
+    props.setFilterGeItemsEditDelete(newTodo);
     
   }
 
   let handleNewCompanyChange = (id, value, index) => {
-    const newTodo = [...geFilterItems];
+    const newTodo = [...props.geFilterItemsEditDelete];
     newTodo[index].item_company = value;
-    setFilterGeItems(newTodo);
+    props.setFilterGeItemsEditDelete(newTodo);
   }
 
   let handleNewModalChange = (id, value, index) => {
-    const newTodo = [...geFilterItems];
+    const newTodo = [...props.geFilterItemsEditDelete];
     newTodo[index].item_modal = value;
-    setFilterGeItems(newTodo);
+    props.setFilterGeItemsEditDelete(newTodo);
   }
 
   let handleNewSubCategoryChange = (id, value, index) => {
-    const newTodo = [...geFilterItems];
+    const newTodo = [...props.geFilterItemsEditDelete];
     newTodo[index].item_subcategory = value;
-    setFilterGeItems(newTodo);
+    props.setFilterGeItemsEditDelete(newTodo);
   }
 
   let handleNewWarrantyChange = (id, value, index) => {
-    const newTodo = [...geFilterItems];
+    const newTodo = [...props.geFilterItemsEditDelete];
     newTodo[index].item_warranty = value;
-    setFilterGeItems(newTodo);
+    props.setFilterGeItemsEditDelete(newTodo);
   }
 
   let handleNewCpChange = (id, value, index) => {
-    const newTodo = [...geFilterItems];
+    const newTodo = [...props.geFilterItemsEditDelete];
     newTodo[index].item_cp = value;
-    setFilterGeItems(newTodo);
+    props.setFilterGeItemsEditDelete(newTodo);
   }
 
   let handleNewSpChange = (id, value, index) => {
-    const newTodo = [...geFilterItems];
+    const newTodo = [...props.geFilterItemsEditDelete];
     newTodo[index].item_sp = value;
-    setFilterGeItems(newTodo);
+    props.setFilterGeItemsEditDelete(newTodo);
   }
 
   let handleNewDescriptionChange = (id, value, index) => {
-    const newTodo = [...geFilterItems];
+    const newTodo = [...props.geFilterItemsEditDelete];
     newTodo[index].item_description = value;
-    setFilterGeItems(newTodo);
+    props.setFilterGeItemsEditDelete(newTodo);
   }
 
 
 
   let handleItemChange = (e) => {
-    setcurrentItem_short(e.target.value);
+    props.setcurrentItem_shortEditDelete(e.target.value);
   }
 
   let handleItemCompanyChange = (e) => {
-    setcurrentItem_company(e.target.value);
+    props.setcurrentItem_companyEditDelete(e.target.value);
   }
 
   let handleCancel = (item_id, index) => {
     let actionButton=[];
-    for (let i = 0; i < geItems.length; i++) {
+    for (let i = 0; i < props.geItemsEditDelete.length; i++) {
     
       actionButton.push(true);
     }
-    setshowActionButton(actionButton);
-    console.log(prevEditValue)
-    const newEdit = [...editOn];
+    props.setshowActionButton(actionButton);
+    console.log(props.prevEditValue)
+    const newEdit = [...props.editOn];
     newEdit[index] = false
-    console.log(prevEditValue);
-    geFilterItems[index].item_company=prevEditValue2.item_company
-    geFilterItems[index].item_cp=prevEditValue2.item_cp
-    geFilterItems[index].item_description=prevEditValue2.item_description
-    geFilterItems[index].item_id=prevEditValue2.item_id
-    geFilterItems[index].item_modal=prevEditValue2.item_modal
-    geFilterItems[index].item_name=prevEditValue2.item_name
-    geFilterItems[index].item_shortname=prevEditValue2.item_shortname
-    geFilterItems[index].item_sp=prevEditValue2.item_sp
-    geFilterItems[index].item_subcategory=prevEditValue2.item_subcategory
-    geFilterItems[index].item_warranty=prevEditValue2.item_warranty
+    console.log(props.prevEditValue);
+    props.geFilterItemsEditDelete[index].item_company=props.prevEditValue2.item_company
+    props.geFilterItemsEditDelete[index].item_cp=props.prevEditValue2.item_cp
+    props.geFilterItemsEditDelete[index].item_description=props.prevEditValue2.item_description
+    props.geFilterItemsEditDelete[index].item_id=props.prevEditValue2.item_id
+    props.geFilterItemsEditDelete[index].item_modal=props.prevEditValue2.item_modal
+    props.geFilterItemsEditDelete[index].item_name=props.prevEditValue2.item_name
+    props.geFilterItemsEditDelete[index].item_shortname=props.prevEditValue2.item_shortname
+    props.geFilterItemsEditDelete[index].item_sp=props.prevEditValue2.item_sp
+    props.geFilterItemsEditDelete[index].item_subcategory=props.prevEditValue2.item_subcategory
+    props.geFilterItemsEditDelete[index].item_warranty=props.prevEditValue2.item_warranty
 
-    seteditOn(newEdit);
+    props.seteditOn(newEdit);
     document.getElementById('editButton_' + item_id).style.visibility = 'visible';
     document.getElementById('saveButton_' + item_id).style.visibility = 'hidden';
     document.getElementById('cancelButton_' + item_id).style.visibility = 'hidden';
@@ -236,9 +232,9 @@ try {
       
 
       //alert(currentUserId);
-      const filteredPeople = geFilterItems.filter((item) => item.item_id !== item_id);
+      const filteredPeople = props.geFilterItemsEditDelete.filter((item) => item.item_id !== item_id);
 
-      const newEdit = [...editOn];
+      const newEdit = [...props.editOn];
 
       const newEditArray = [];
 
@@ -250,18 +246,18 @@ for (let i = 0; i < newEdit.length; i++) {
 
 
 
-      seteditOn(newEditArray);
+      props.seteditOn(newEditArray);
 
-      setFilterGeItems(filteredPeople)
-      setprevEditValue(filteredPeople)
+      props.setFilterGeItemsEditDelete(filteredPeople)
+      props.setprevEditValue(filteredPeople)
       fetchGeItem();
 
       let actionButton=[];
-    for (let i = 0; i < geItems.length; i++) {
+    for (let i = 0; i < props.geItemsEditDelete.length; i++) {
     
       actionButton.push(true);
     }
-    setshowActionButton(actionButton);
+    props.setshowActionButton(actionButton);
 
       alert("Item Deleted");
 
@@ -301,17 +297,17 @@ for (let i = 0; i < newEdit.length; i++) {
 
             //document.getElementById(todoId).removeAttribute("disabled");
             //document.getElementById(todoId).setAttribute("disabled","true");
-            const newEdit = [...editOn];
+            const newEdit = [...props.editOn];
             newEdit[index] = false
 
-            seteditOn(newEdit);
+            props.seteditOn(newEdit);
 
             let actionButton=[];
-    for (let i = 0; i < geItems.length; i++) {
+    for (let i = 0; i < props.geItemsEditDelete.length; i++) {
     
       actionButton.push(true);
     }
-    setshowActionButton(actionButton);
+    props.setshowActionButton(actionButton);
 
             document.getElementById('editButton_' + item_id).style.visibility = 'visible';
             document.getElementById('saveButton_' + item_id).style.visibility = 'hidden';
@@ -338,37 +334,37 @@ for (let i = 0; i < newEdit.length; i++) {
 
   let handleEdit = (item_id, index) => {
     //setDisableItem(false);
-    //seteditOn(true);
+    //props.seteditOn(true);
     let actionButton=[];
-    for (let i = 0; i < geItems.length; i++) {
+    for (let i = 0; i < props.geItemsEditDelete.length; i++) {
       if(i==index)
       actionButton.push(true);
       else
       actionButton.push(false);
     }
-    setshowActionButton(actionButton);
+    props.setshowActionButton(actionButton);
   
-    console.log(prevEditValue[index])
+    console.log(props.prevEditValue[index])
     let check={};
     check={
-      item_company:prevEditValue[index].item_company,
-      item_cp:prevEditValue[index].item_cp,
-      item_description:prevEditValue[index].item_description,
-      item_id:prevEditValue[index].item_id,
-      item_modal:prevEditValue[index].item_modal,
-      item_name:prevEditValue[index].item_name,
-      item_shortname:prevEditValue[index].item_shortname,
-      item_sp:prevEditValue[index].item_sp,
-      item_subcategory:prevEditValue[index].item_subcategory,
-      item_warranty:prevEditValue[index].item_warranty
+      item_company:props.prevEditValue[index].item_company,
+      item_cp:props.prevEditValue[index].item_cp,
+      item_description:props.prevEditValue[index].item_description,
+      item_id:props.prevEditValue[index].item_id,
+      item_modal:props.prevEditValue[index].item_modal,
+      item_name:props.prevEditValue[index].item_name,
+      item_shortname:props.prevEditValue[index].item_shortname,
+      item_sp:props.prevEditValue[index].item_sp,
+      item_subcategory:props.prevEditValue[index].item_subcategory,
+      item_warranty:props.prevEditValue[index].item_warranty
       
     }
-    setprevEditValue2(check);
+    props.setprevEditValue2(check);
 
-    const newEdit = [...editOn];
+    const newEdit = [...props.editOn];
     newEdit[index] = true
 
-    seteditOn(newEdit);
+    props.seteditOn(newEdit);
 
 
     document.getElementById('editButton_' + item_id).style.visibility = 'hidden';
@@ -386,16 +382,16 @@ for (let i = 0; i < newEdit.length; i++) {
     
 <div style={{display:'flex'}}>
   <div style={{margin: "auto",marginTop:"1vh",width:"40vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
-  <h6>NAME SEARCH</h6><input className='' type="text" value={currentItem_short} placeholder="ENTER ITEM" onChange={handleItemChange} />
+  <h6>NAME SEARCH</h6><input className='' type="text" value={props.currentItem_shortEditDelete} placeholder="ENTER ITEM" onChange={handleItemChange} />
 
   </div>
   <div style={{margin: "auto",marginTop:"1vh",width:"40vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
-  <h6>COMPANY SEARCH</h6><input className='' type="text" value={currentItem_company} placeholder="ENTER COMPANY" onChange={handleItemCompanyChange} />
+  <h6>COMPANY SEARCH</h6><input className='' type="text" value={props.currentItem_companyEditDelete} placeholder="ENTER COMPANY" onChange={handleItemCompanyChange} />
 
   </div>
 
   <div style={{margin: "auto",marginTop:"1vh",width:"40vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
-  <h6>MODAL SEARCH</h6><input className='' type="text" value={currentItem_company} placeholder="ENTER MODAL" onChange={handleItemCompanyChange} />
+  <h6>MODAL SEARCH</h6><input className='' type="text" value={props.currentItem_companyEditDelete} placeholder="ENTER MODAL" onChange={handleItemCompanyChange} />
 
   </div>
 
@@ -421,24 +417,24 @@ for (let i = 0; i < newEdit.length; i++) {
       </thead>
 
       <tbody>
-        {geFilterItems.map(
+        {props.geFilterItemsEditDelete.map(
           (geFilterItem, index) => <tr id={geFilterItem.item_id} key={geFilterItem.item_id}>
 
-<td>{showActionButton[index] && <><button className='editButton' style={{ visibility: "visible" }} id={"editButton_" + geFilterItem.item_id} onClick={() => handleEdit(geFilterItem.item_id, index)}><FiEdit /></button>
+<td>{props.showActionButton[index] && <><button className='editButton' style={{ visibility: "visible" }} id={"editButton_" + geFilterItem.item_id} onClick={() => handleEdit(geFilterItem.item_id, index)}><FiEdit /></button>
               <button className='saveButton' style={{ visibility: "hidden" }} id={"saveButton_" + geFilterItem.item_id} onClick={() => handleSave(geFilterItem.item_id, index)}><RiSave2Fill /></button>
               <button className='cancelButton' style={{ visibility: "hidden" }} id={"cancelButton_" + geFilterItem.item_id} onClick={() => handleCancel(geFilterItem.item_id, index)}><GiCancel /></button>
               <button className='deleteButton' style={{ visibility: "visible" }} id={"deleteButton_" + geFilterItem.item_id} onClick={()=>handleDelete(geFilterItem.item_id, index)}><AiFillDelete /></button></>}</td>
               
-              <td>{editOn[index] ? <input id={`editshortname_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_shortname} placeholder="EDIT SHORT NAME" onChange={(e) => { handleNewShortNameChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_shortname}</td>
+              <td>{props.editOn[index] ? <input id={`editshortname_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_shortname} placeholder="EDIT SHORT NAME" onChange={(e) => { handleNewShortNameChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_shortname}</td>
 
-            <td>{editOn[index] ? <input id={`editname_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_name} placeholder="EDIT NAME" onChange={(e) => { handleNewNameChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_name}</td>
-            <td>{editOn[index] ? <input id={`editcompany_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_company} placeholder="EDIT COMPANY" onChange={(e) => { handleNewCompanyChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_company}</td>
-            <td>{editOn[index] ? <input id={`editmodal_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_modal} placeholder="EDIT MODAL" onChange={(e) => { handleNewModalChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_modal}</td>
-            <td>{editOn[index] ? <input id={`editsubcategory_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_subcategory} placeholder="EDIT SUBCATEGORY" onChange={(e) => { handleNewSubCategoryChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_subcategory}</td>
-            <td>{editOn[index] ? <input id={`editwarranty_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_warranty} placeholder="EDIT WARRANTY" onChange={(e) => { handleNewWarrantyChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_warranty}</td>
-            <td>{editOn[index] ? <input id={`editcp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_cp} placeholder="EDIT COST PRICE" onChange={(e) => { handleNewCpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_cp}</td>
-            <td>{editOn[index] ? <input id={`editsp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_sp} placeholder="EDIT SELLING PRICE" onChange={(e) => { handleNewSpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_sp}</td>
-            <td>{editOn[index] ? <input id={`editdescription_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_description} placeholder="EDIT DESCRIPTION" onChange={(e) => { handleNewDescriptionChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_description}</td>
+            <td>{props.editOn[index] ? <input id={`editname_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_name} placeholder="EDIT NAME" onChange={(e) => { handleNewNameChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_name}</td>
+            <td>{props.editOn[index] ? <input id={`editcompany_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_company} placeholder="EDIT COMPANY" onChange={(e) => { handleNewCompanyChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_company}</td>
+            <td>{props.editOn[index] ? <input id={`editmodal_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_modal} placeholder="EDIT MODAL" onChange={(e) => { handleNewModalChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_modal}</td>
+            <td>{props.editOn[index] ? <input id={`editsubcategory_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_subcategory} placeholder="EDIT SUBCATEGORY" onChange={(e) => { handleNewSubCategoryChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_subcategory}</td>
+            <td>{props.editOn[index] ? <input id={`editwarranty_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_warranty} placeholder="EDIT WARRANTY" onChange={(e) => { handleNewWarrantyChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_warranty}</td>
+            <td>{props.editOn[index] ? <input id={`editcp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_cp} placeholder="EDIT COST PRICE" onChange={(e) => { handleNewCpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_cp}</td>
+            <td>{props.editOn[index] ? <input id={`editsp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_sp} placeholder="EDIT SELLING PRICE" onChange={(e) => { handleNewSpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_sp}</td>
+            <td>{props.editOn[index] ? <input id={`editdescription_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_description} placeholder="EDIT DESCRIPTION" onChange={(e) => { handleNewDescriptionChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_description}</td>
            
 
 
@@ -447,7 +443,10 @@ for (let i = 0; i < newEdit.length; i++) {
         )}
       </tbody>
     </Table>
+    
     </div>
+    <h6>DON'T CHANGE THE TAB WHILE EDITING. OTHERWISE CHANGE WILL LOST</h6>
+    <h6>CHANGE THE TAB AFTER SAVING THE EDITING ROW. IF YOU DON'T WANT TO LOOSE THE CHANGES.</h6>
   </div>);
 }
 export default GeEditDelete;
