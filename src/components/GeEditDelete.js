@@ -22,6 +22,7 @@ function GeEditDelete() {
   const [prevEditValue,setprevEditValue]=useState({});
   const [prevEditValue2,setprevEditValue2]=useState({});
 
+  const [showActionButton,setshowActionButton]=useState([true])
 
 
   useEffect(() => {
@@ -33,6 +34,7 @@ function GeEditDelete() {
     setprevEditValue([]);
     let newArray = [];
     let newEdit = [];
+    let actionButton = []
     if (currentItem_short.length == 0) {
       setFilterGeItems([]);
       setprevEditValue([]);
@@ -44,7 +46,13 @@ function GeEditDelete() {
       for (let i = 0; i < geItems.length; i++) {
         newEdit.push(false);
       }
+
       seteditOn(newEdit);
+
+      for (let i = 0; i < geItems.length; i++) {
+        actionButton.push(true);
+      }
+      setshowActionButton(actionButton);
      
     }
     else if (currentItem_short.length >= 1) {
@@ -57,9 +65,15 @@ function GeEditDelete() {
         newEdit.push(false)
 
       ))
+
+      geItems.filter(geItem => geItem.item_shortname.includes(currentItem_short)).map(filteredItem => (
+        actionButton.push(true)
+
+      ))
       setFilterGeItems(newArray)
       setprevEditValue(newArray);
       seteditOn(newEdit);
+      setshowActionButton(actionButton);
     }
   }, [currentItem_short]);
 
@@ -177,6 +191,12 @@ function GeEditDelete() {
   }
 
   let handleCancel = (item_id, index) => {
+    let actionButton=[];
+    for (let i = 0; i < geItems.length; i++) {
+    
+      actionButton.push(true);
+    }
+    setshowActionButton(actionButton);
     console.log(prevEditValue)
     const newEdit = [...editOn];
     newEdit[index] = false
@@ -233,7 +253,16 @@ for (let i = 0; i < newEdit.length; i++) {
       seteditOn(newEditArray);
 
       setFilterGeItems(filteredPeople)
+      setprevEditValue(filteredPeople)
       fetchGeItem();
+
+      let actionButton=[];
+    for (let i = 0; i < geItems.length; i++) {
+    
+      actionButton.push(true);
+    }
+    setshowActionButton(actionButton);
+
       alert("Item Deleted");
 
 
@@ -277,6 +306,13 @@ for (let i = 0; i < newEdit.length; i++) {
 
             seteditOn(newEdit);
 
+            let actionButton=[];
+    for (let i = 0; i < geItems.length; i++) {
+    
+      actionButton.push(true);
+    }
+    setshowActionButton(actionButton);
+
             document.getElementById('editButton_' + item_id).style.visibility = 'visible';
             document.getElementById('saveButton_' + item_id).style.visibility = 'hidden';
             document.getElementById('cancelButton_' + item_id).style.visibility = 'hidden';
@@ -303,6 +339,14 @@ for (let i = 0; i < newEdit.length; i++) {
   let handleEdit = (item_id, index) => {
     //setDisableItem(false);
     //seteditOn(true);
+    let actionButton=[];
+    for (let i = 0; i < geItems.length; i++) {
+      if(i==index)
+      actionButton.push(true);
+      else
+      actionButton.push(false);
+    }
+    setshowActionButton(actionButton);
   
     console.log(prevEditValue[index])
     let check={};
@@ -380,10 +424,10 @@ for (let i = 0; i < newEdit.length; i++) {
         {geFilterItems.map(
           (geFilterItem, index) => <tr id={geFilterItem.item_id} key={geFilterItem.item_id}>
 
-<td><button className='editButton' style={{ visibility: "visible" }} id={"editButton_" + geFilterItem.item_id} onClick={() => handleEdit(geFilterItem.item_id, index)}><FiEdit /></button>
+<td>{showActionButton[index] && <><button className='editButton' style={{ visibility: "visible" }} id={"editButton_" + geFilterItem.item_id} onClick={() => handleEdit(geFilterItem.item_id, index)}><FiEdit /></button>
               <button className='saveButton' style={{ visibility: "hidden" }} id={"saveButton_" + geFilterItem.item_id} onClick={() => handleSave(geFilterItem.item_id, index)}><RiSave2Fill /></button>
               <button className='cancelButton' style={{ visibility: "hidden" }} id={"cancelButton_" + geFilterItem.item_id} onClick={() => handleCancel(geFilterItem.item_id, index)}><GiCancel /></button>
-              <button className='deleteButton' style={{ visibility: "visible" }} id={"deleteButton_" + geFilterItem.item_id} onClick={()=>handleDelete(geFilterItem.item_id, index)}><AiFillDelete /></button></td>
+              <button className='deleteButton' style={{ visibility: "visible" }} id={"deleteButton_" + geFilterItem.item_id} onClick={()=>handleDelete(geFilterItem.item_id, index)}><AiFillDelete /></button></>}</td>
               
               <td>{editOn[index] ? <input id={`editshortname_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_shortname} placeholder="EDIT SHORT NAME" onChange={(e) => { handleNewShortNameChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_shortname}</td>
 
