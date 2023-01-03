@@ -19,24 +19,10 @@ function GeEditDelete() {
   const [currentItem_company, setcurrentItem_company] = useState("");
 
   const [editOn, seteditOn] = useState([false]);
+  const [prevEditValue,setprevEditValue]=useState({});
+  const [prevEditValue2,setprevEditValue2]=useState({});
 
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [checkLoginStatus, setCheckLoginStatus] = useState(false);
-  const [todoItems, setTodoItems] = useState([]);
-  const [userId, setUserId] = useState();
-  const [emptyToDoList, setEmptyToDoList] = useState(false);
-
-  const [createAccountUi, setCreateAccountUi] = useState(false);
-  const [create_username, setCreate_username] = useState("");
-  const [create_password, setCreate_password] = useState("");
-  const [createError, setCreateError] = useState("");
-
-  let handleLogOut = (e) => {
-    e.preventDefault();
-    setCheckLoginStatus(false);
-  }
 
   useEffect(() => {
     fetchGeItem();
@@ -44,22 +30,25 @@ function GeEditDelete() {
 
   useEffect(() => {
     setFilterGeItems([]);
+    setprevEditValue([]);
     let newArray = [];
     let newEdit = [];
     if (currentItem_short.length == 0) {
       setFilterGeItems([]);
+      setprevEditValue([]);
     }
     else if (currentItem_short == '*') {
       setFilterGeItems(geItems);
-      console.log(geItems.length)
+      setprevEditValue(geItems);
+      console.log(prevEditValue)
       for (let i = 0; i < geItems.length; i++) {
         newEdit.push(false);
       }
       seteditOn(newEdit);
-      console.log(newEdit);
+     
     }
     else if (currentItem_short.length >= 1) {
-      //console.log(currentItem_short)
+      
       geItems.filter(geItem => geItem.item_shortname.includes(currentItem_short)).map(filteredItem => (
         newArray.push(filteredItem)
 
@@ -69,15 +58,18 @@ function GeEditDelete() {
 
       ))
       setFilterGeItems(newArray)
+      setprevEditValue(newArray);
       seteditOn(newEdit);
     }
   }, [currentItem_short]);
 
   useEffect(() => {
     setFilterGeItems([]);
+    setprevEditValue([]);
     let newArray = [];
     if (currentItem_company.length == 0) {
       setFilterGeItems([]);
+      setprevEditValue([]);
     }
     if (currentItem_company.length >= 1) {
       geItems.filter(geItem => geItem.item_company.includes(currentItem_company) && geItem.item_shortname.includes(currentItem_short)).map(filteredItem => (
@@ -85,6 +77,7 @@ function GeEditDelete() {
 
       ))
       setFilterGeItems(newArray)
+      setprevEditValue(newArray);
     }
   }, [currentItem_company]);
 
@@ -97,7 +90,7 @@ function GeEditDelete() {
         .then((res) => res.json())
         .then((json) => {
           if (json.length != 0) {
-            console.log(json);
+       
             //setCheckLoginStatus(true);
 
             if (json.error == "No Item in Inventory") {
@@ -105,7 +98,7 @@ function GeEditDelete() {
             }
             else {
               setGeItems(json);
-              console.log(geItems);
+              
               //setEmptyToDoList(false);
             }
 
@@ -113,7 +106,7 @@ function GeEditDelete() {
         })
     } catch (err) {
       alert("Login Fail")
-      console.log(err);
+     
     }
   }
 
@@ -124,9 +117,11 @@ function GeEditDelete() {
   }
 
   let handleNewNameChange = (id, value, index) => {
+    const prevV = geFilterItems[index].item_name;
     const newTodo = [...geFilterItems];
     newTodo[index].item_name = value;
     setFilterGeItems(newTodo);
+    
   }
 
   let handleNewCompanyChange = (id, value, index) => {
@@ -182,15 +177,26 @@ function GeEditDelete() {
   }
 
   let handleCancel = (item_id, index) => {
+    console.log(prevEditValue)
     const newEdit = [...editOn];
     newEdit[index] = false
+    console.log(prevEditValue);
+    geFilterItems[index].item_company=prevEditValue2.item_company
+    geFilterItems[index].item_cp=prevEditValue2.item_cp
+    geFilterItems[index].item_description=prevEditValue2.item_description
+    geFilterItems[index].item_id=prevEditValue2.item_id
+    geFilterItems[index].item_modal=prevEditValue2.item_modal
+    geFilterItems[index].item_name=prevEditValue2.item_name
+    geFilterItems[index].item_shortname=prevEditValue2.item_shortname
+    geFilterItems[index].item_sp=prevEditValue2.item_sp
+    geFilterItems[index].item_subcategory=prevEditValue2.item_subcategory
+    geFilterItems[index].item_warranty=prevEditValue2.item_warranty
 
     seteditOn(newEdit);
     document.getElementById('editButton_' + item_id).style.visibility = 'visible';
     document.getElementById('saveButton_' + item_id).style.visibility = 'hidden';
     document.getElementById('cancelButton_' + item_id).style.visibility = 'hidden';
 
-    console.log(geItems);
 
   }
 
@@ -207,7 +213,7 @@ try {
   })
     .then((res) => res.json())
     .then((json) => {
-      console.log(json);
+      
 
       //alert(currentUserId);
       const filteredPeople = geFilterItems.filter((item) => item.item_id !== item_id);
@@ -235,7 +241,7 @@ for (let i = 0; i < newEdit.length; i++) {
     })
 } catch (err) {
   alert("Delete Fail")
-  console.log(err);
+  
 }
   }
 
@@ -262,7 +268,7 @@ for (let i = 0; i < newEdit.length; i++) {
         .then((res) => res.json())
         .then((json) => {
           if (json.length != 0) {
-            console.log(json);
+          
 
             //document.getElementById(todoId).removeAttribute("disabled");
             //document.getElementById(todoId).setAttribute("disabled","true");
@@ -290,22 +296,36 @@ for (let i = 0; i < newEdit.length; i++) {
         })
     } catch (err) {
       alert("Login Fail")
-      console.log(err);
+    
     }
   }
 
   let handleEdit = (item_id, index) => {
     //setDisableItem(false);
     //seteditOn(true);
-    console.log(editOn)
+  
+    console.log(prevEditValue[index])
+    let check={};
+    check={
+      item_company:prevEditValue[index].item_company,
+      item_cp:prevEditValue[index].item_cp,
+      item_description:prevEditValue[index].item_description,
+      item_id:prevEditValue[index].item_id,
+      item_modal:prevEditValue[index].item_modal,
+      item_name:prevEditValue[index].item_name,
+      item_shortname:prevEditValue[index].item_shortname,
+      item_sp:prevEditValue[index].item_sp,
+      item_subcategory:prevEditValue[index].item_subcategory,
+      item_warranty:prevEditValue[index].item_warranty
+      
+    }
+    setprevEditValue2(check);
 
     const newEdit = [...editOn];
     newEdit[index] = true
 
     seteditOn(newEdit);
 
-    //console.log(item_id);
-    //console.log($("#editname_3").value)
 
     document.getElementById('editButton_' + item_id).style.visibility = 'hidden';
     document.getElementById('saveButton_' + item_id).style.visibility = 'visible';
