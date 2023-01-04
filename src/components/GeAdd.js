@@ -217,13 +217,13 @@ function GeAdd() {
         <div style={{display:'flex'}}>
   <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>ENTER ITEM COST PRICE</h6>
-  <input className='' type="text" value={create_cp} placeholder="CREATE COST PRICE" onChange={handlecreate_cp} required/>
+  <input className='' type="number" value={create_cp} placeholder="CREATE COST PRICE" onChange={handlecreate_cp} required/>
 
 
   </div>
   <div style={{margin: "auto",marginTop:"1vh",width:"60vh",height:"10vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h6>ENTER ITEM SELLING PRICE</h6>
-  <input className='' type="text" value={create_sp} placeholder="CREATE SELLING PRICE" onChange={handlecreate_sp} required/>
+  <input className='' type="number" value={create_sp} placeholder="CREATE SELLING PRICE" onChange={handlecreate_sp} required/>
 
 
   </div>
