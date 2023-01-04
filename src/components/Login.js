@@ -129,6 +129,6 @@ function Login() {
     <input className='inputField' type="password" value={create_password} placeholder="CREATE PASSWORD" onChange={handleCreatePasswordChange}/>
     <button className='inputField' type="submit">CREATE ACCOUNT</button>
   </form><button className='inputField cancelButton' onClick={goBackToLogin}>BACK</button><h4 className='logOutButton'>{createError}</h4></div>:
-  <div><GeHome/><button className='footer logOutButton'onClick={handleLogOut}>LOG OUT</button></div>);
+  <div><GeHome handleLogOut={handleLogOut}/></div>);
 }
 export default Login;

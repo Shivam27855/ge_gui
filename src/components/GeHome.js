@@ -11,12 +11,17 @@ import { useEffect, useState } from "react";
 
 
 
-function GeHome() {
+function GeHome(props) {
 
  
 
   const [currentPage,setcurrentPage]=useState("PRICE LIST");
   const [profileData,setprofileData]=useState(["a"]);
+  const [activePriceList,setActivePriceList]=useState(true);
+  const [activeEstimation,setActiveEstimation]=useState(false);
+  const [activeAddItem,setActiveAddItem]=useState(false);
+  const [activeEditDelete,setActiveEditDelete]=useState(false);
+  const [activeProfile,setActiveProfile]=useState(false);
 
   //Price List Section
   const [geItemsPriceList, setGeItemsPriceList] = useState([]);
@@ -58,22 +63,47 @@ function GeHome() {
 
   let priceList=()=>{
     setcurrentPage("PRICE LIST");
+    setActivePriceList(true)
+    setActiveEstimation(false)
+    setActiveAddItem(false)
+    setActiveEditDelete(false)
+    setActiveProfile(false)
   }
 
   let estimation=()=>{
     setcurrentPage("ESTIMATION");
+    setActivePriceList(false)
+    setActiveEstimation(true)
+    setActiveAddItem(false)
+    setActiveEditDelete(false)
+    setActiveProfile(false)
   }
 
   let addItem=()=>{
     setcurrentPage("ADD ITEM");
+    setActivePriceList(false)
+    setActiveEstimation(false)
+    setActiveAddItem(true)
+    setActiveEditDelete(false)
+    setActiveProfile(false)
   }
 
   let editDelete=()=>{
     setcurrentPage("EDIT/DELETE ITEM");
+    setActivePriceList(false)
+    setActiveEstimation(false)
+    setActiveAddItem(false)
+    setActiveEditDelete(true)
+    setActiveProfile(false)
   }
 
   let profile=()=>{
     setcurrentPage("PROFILE");
+    setActivePriceList(false)
+    setActiveEstimation(false)
+    setActiveAddItem(false)
+    setActiveEditDelete(false)
+    setActiveProfile(true)
   }
 
   //profileSection();
@@ -83,19 +113,19 @@ function GeHome() {
 <div style={{width:"100vh",height: '100vh',border:"1px solid #000"}}>
 
       <div style={{ margin: "auto", marginTop:"15vh", width:"150px",height:"",border:"1px solid #000",borderRadius: "8px"}}>
-        <h5 className='footer'><button onClick={priceList}>PRICE LIST</button></h5>
+      {activePriceList?<h5 className='footer'><button className="saveButton" onClick={priceList}>PRICE LIST</button></h5>:<h5 className='footer'><button onClick={priceList}>PRICE LIST</button></h5>}
         </div>
         <div style={{ margin: "auto",marginTop:"5vh",width:"150px",height:"",border:"1px solid #000",borderRadius: "8px"}}>
-        <h5 className='footer'><button onClick={estimation}>ESTIMATION</button></h5>
+        {activeEstimation?<h5 className='footer'><button className="saveButton" onClick={estimation}>ESTIMATION</button></h5>:<h5 className='footer'><button onClick={estimation}>ESTIMATION</button></h5>}
         </div>
         <div style={{ margin: "auto",marginTop:"5vh",width:"150px",height:"",border:"1px solid #000",borderRadius: "8px"}}>
-        <h5 className='footer'><button onClick={addItem}>ADD ITEM</button></h5>
+        {activeAddItem?<h5 className='footer'><button className="saveButton" onClick={addItem}>ADD ITEM</button></h5>:<h5 className='footer'><button onClick={addItem}>ADD ITEM</button></h5>}
         </div>
         <div style={{ margin: "auto",marginTop:"5vh",width:"150px",height:"",border:"1px solid #000",borderRadius: "8px"}}>
-        <h5 className='footer'><button onClick={editDelete}>EDIT/DELETE</button></h5>
+        {activeEditDelete?<h5 className='footer'><button className="saveButton" onClick={editDelete}>EDIT/DELETE</button></h5>:<h5 className='footer'><button onClick={editDelete}>EDIT/DELETE</button></h5>}
         </div>
         <div style={{ margin: "auto",marginTop:"5vh",width:"150px",height:"",border:"1px solid #000",borderRadius: "8px"}}>
-        <h5 className='footer'><button onClick={profile}>PROFILE</button></h5>
+        {activeProfile?<h5 className='footer'><button className="saveButton" onClick={profile}>PROFILE</button></h5>:<h5 className='footer'><button onClick={profile}>PROFILE</button></h5>}
         </div>
 </div>
 <div style={{width:"500vh",height: '100vh',border:"1px solid #000"}}>
@@ -107,6 +137,7 @@ function GeHome() {
   <div style={{margin: "auto",marginTop:"2vh",width:"50vh",height:"6vh",border:"1px solid #000",borderRadius: "4px"}}>
   <h3 className='footer'>{currentPage}</h3>
   </div>
+  <button className='footer logOutButton'onClick={props.handleLogOut}>LOG OUT</button>
 
         </div>
 

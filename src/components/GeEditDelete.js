@@ -420,10 +420,10 @@ for (let i = 0; i < newEdit.length; i++) {
         {props.geFilterItemsEditDelete.map(
           (geFilterItem, index) => <tr id={geFilterItem.item_id} key={geFilterItem.item_id}>
 
-<td>{props.showActionButton[index] && <><button className='editButton' style={{ visibility: "visible" }} id={"editButton_" + geFilterItem.item_id} onClick={() => handleEdit(geFilterItem.item_id, index)}><FiEdit /></button>
-              <button className='saveButton' style={{ visibility: "hidden" }} id={"saveButton_" + geFilterItem.item_id} onClick={() => handleSave(geFilterItem.item_id, index)}><RiSave2Fill /></button>
-              <button className='cancelButton' style={{ visibility: "hidden" }} id={"cancelButton_" + geFilterItem.item_id} onClick={() => handleCancel(geFilterItem.item_id, index)}><GiCancel /></button>
-              <button className='deleteButton' style={{ visibility: "visible" }} id={"deleteButton_" + geFilterItem.item_id} onClick={()=>handleDelete(geFilterItem.item_id, index)}><AiFillDelete /></button></>}</td>
+<td>{props.showActionButton[index] && <><FiEdit size={25} className='' style={{ visibility: "visible" }} id={"editButton_" + geFilterItem.item_id} onClick={() => handleEdit(geFilterItem.item_id, index)}/>
+              <RiSave2Fill size={25}  className='' style={{ visibility: "hidden" }} id={"saveButton_" + geFilterItem.item_id} onClick={() => handleSave(geFilterItem.item_id, index)}/>
+              <GiCancel size={25}  className='' style={{ visibility: "hidden" }} id={"cancelButton_" + geFilterItem.item_id} onClick={() => handleCancel(geFilterItem.item_id, index)}/>
+              <AiFillDelete size={25}  className='' style={{ visibility: "visible" }} id={"deleteButton_" + geFilterItem.item_id} onClick={()=>handleDelete(geFilterItem.item_id, index)}/></>}</td>
               
               <td>{props.editOn[index] ? <input id={`editshortname_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_shortname} placeholder="EDIT SHORT NAME" onChange={(e) => { handleNewShortNameChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_shortname}</td>
 
@@ -436,8 +436,6 @@ for (let i = 0; i < newEdit.length; i++) {
             <td>{props.editOn[index] ? <input id={`editsp_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_sp} placeholder="EDIT SELLING PRICE" onChange={(e) => { handleNewSpChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_sp}</td>
             <td>{props.editOn[index] ? <input id={`editdescription_${geFilterItem.item_id}`} className='' type="text" value={geFilterItem.item_description} placeholder="EDIT DESCRIPTION" onChange={(e) => { handleNewDescriptionChange(geFilterItem.item_id, e.target.value, index) }} /> : geFilterItem.item_description}</td>
            
-
-
 
           </tr>
         )}

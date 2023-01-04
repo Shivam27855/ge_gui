@@ -282,10 +282,8 @@ for (var i=0;i<x1.length;i++) {
       <tbody>
          {props.geEstimationItems.map(
           (geEstimationItem, index) => <tr id={index} key={index}>
-             <td><button className='editButton' style={{ visibility: "visible" }} onClick={()=>togglePopup(index)}><FiEdit /></button>
-              <button className='saveButton' style={{ visibility: "hidden" }}><RiSave2Fill /></button>
-              <button className='cancelButton' style={{ visibility: "hidden" }}><GiCancel /></button>
-              <button className='deleteButton' style={{ visibility: "visible" }} onClick={()=>handleDelete(index)}><AiFillDelete /></button></td>
+             <td><FiEdit size={25} className='' style={{ visibility: "visible" }} onClick={()=>togglePopup(index)}/>
+              <AiFillDelete size={25} className='' style={{ visibility: "visible" }} onClick={()=>handleDelete(index)}/></td>
             <td>{geEstimationItem.item_name}</td>
             <td>{geEstimationItem.item_rate}</td>
             <td>{geEstimationItem.item_quantity}</td>
